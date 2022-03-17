@@ -15,19 +15,18 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   SQLdb sqlDB = SQLdb();
-  bool isLoading = true;
+  bool isLoading = false;
   List todos = [];
 
   Future read() async {
     List<Map> response = await sqlDB.readData("SELECT * FROM todos");
     todos.addAll(response);
-    isLoading = false;
+    isLoading = true;
     if (mounted) {
       setState(() {});
     }
   }
 
-  bool isEmpty = false;
   int selectedIndex = 0;
   final _tabs = [
     const AllTodoPage(),
@@ -93,7 +92,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: isEmpty
+      body: isLoading
           ? Center(
               child: JumpingText(
               'Sabr...',

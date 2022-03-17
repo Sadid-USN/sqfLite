@@ -92,10 +92,11 @@ class _CompletedTodoState extends State<CompletedTodo> {
                             children: [
                               Text(
                                 todos[index]['title'],
+                                overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   color: Colors.blueGrey.shade700,
-                                  fontSize: 20,
+                                  fontSize: 18,
                                 ),
                               ),
                               const SizedBox(
@@ -103,10 +104,11 @@ class _CompletedTodoState extends State<CompletedTodo> {
                               ),
                               Text(
                                 todos[index]['todo'],
-                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
                                 style: TextStyle(
                                   color: Colors.grey.shade900,
-                                  fontSize: 16,
+                                  fontSize: 14,
                                 ),
                               ),
                             ],

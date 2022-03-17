@@ -21,7 +21,7 @@ class _AddTodoState extends State<AddTodo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ДОБАВИТЬ ЗАДАЧУ'),
+        title: const Text('Новая задача'),
       ),
       body: Container(
           padding: const EdgeInsets.all(16.0),
@@ -32,22 +32,16 @@ class _AddTodoState extends State<AddTodo> {
                 child: Column(
                   children: [
                     TextFormField(
-                      validator: ((value) {
-                        if (value!.isEmpty) {
-                          return 'Обязательное поле';
-                        }
-                        return null;
-                      }),
+                      // validator: ((value) {
+                      //   if (value!.isEmpty) {
+                      //     return 'Обязательное поле';
+                      //   }
+                      //   return null;
+                      // }),
                       controller: _titleController,
                       decoration: const InputDecoration(hintText: 'Заголовак'),
                     ),
                     TextFormField(
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Добавьте описание';
-                        }
-                        return null;
-                      },
                       maxLines: 3,
                       controller: _todoController,
                       decoration: const InputDecoration(hintText: 'Описание'),
@@ -55,41 +49,29 @@ class _AddTodoState extends State<AddTodo> {
                     const SizedBox(
                       height: 15,
                     ),
-                    // TextFormField(
-                    //   validator: ((value) {
-                    //     if (value!.isEmpty) {
-                    //       return 'Обязательное поле';
-                    //     }
-                    //     return null;
-                    //   }),
-                    //   controller: _done,
-                    //   decoration: const InputDecoration(hintText: 'Заголовак'),
-                    // ),
                     MaterialButton(
                       color: Colors.green,
                       onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          int response = await sqlDB.insertData('''
+                        int response = await sqlDB.insertData('''
                          INSERT INTO todos (`title`, `todo`, `done`)
                          VALUES
                          ("${_titleController.text}",
                           "${_todoController.text}",
-                         "1"
+                         "0"
 
 
                           )
                           ''');
-                          if (response > 0) {
-                            Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return const HomePage();
-                                },
-                              ),
-                            );
-                          } else {
-                            return;
-                          }
+                        if (response > 0) {
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return const HomePage();
+                              },
+                            ),
+                          );
+                        } else {
+                          return;
                         }
 
                         print("====== RESPONSE =======");

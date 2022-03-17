@@ -154,7 +154,7 @@ class _AllTodoPageState extends State<AllTodoPage> {
                                   ),
                                 ),
                                 const SizedBox(
-                                  height: 12,
+                                  height: 14,
                                 ),
                                 Text(
                                   todos[index]['todo'],

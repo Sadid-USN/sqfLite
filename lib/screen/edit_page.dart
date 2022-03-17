@@ -42,23 +42,11 @@ class _EditPageState extends State<EditPage> {
             children: [
               TextFormField(
                 maxLines: 1,
-                validator: ((value) {
-                  if (value!.isEmpty) {
-                    return 'Обязательное поле';
-                  }
-                  return null;
-                }),
                 controller: _titleController,
                 decoration: const InputDecoration(hintText: 'Заголовак'),
               ),
               TextFormField(
                 maxLines: 15,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Добавьте описание';
-                  }
-                  return null;
-                },
                 controller: _todoController,
                 decoration: const InputDecoration(hintText: 'Описание'),
               ),
@@ -68,21 +56,19 @@ class _EditPageState extends State<EditPage> {
               MaterialButton(
                 color: Colors.green,
                 onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    int response = await sqlDB.updateData('''
+                  int response = await sqlDB.updateData('''
                        UPDATE todos SET
                        title = "${_titleController.text}",
                        todo  = "${_todoController.text}"
                        WHERE id = "${widget.id}"
 
                         ''');
-                    if (response > 0) {
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) {
-                          return const HomePage();
-                        }),
-                      );
-                    }
+                  if (response > 0) {
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) {
+                        return const HomePage();
+                      }),
+                    );
                   }
 
                   print("====== RESPONSE =======");
