@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sql_db/home_page.dart';
 
 void main() {
@@ -12,11 +13,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        textTheme:
+            GoogleFonts.ptSerifCaptionTextTheme(Theme.of(context).textTheme),
+        primarySwatch: Colors.green,
       ),
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }

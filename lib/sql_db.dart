@@ -17,7 +17,7 @@ class SQLdb {
     String databasepath = await getDatabasesPath();
     String path = join(databasepath, 'todo.db');
     Database mydb = await openDatabase(path,
-        onCreate: _onCrate, version: 1, onUpgrade: _onUpgrade);
+        onCreate: _onCreate, version: 1, onUpgrade: _onUpgrade);
 
     return mydb;
   }
@@ -27,14 +27,15 @@ class SQLdb {
     await db.execute("ALTER TABLE todo ADD COLUMN title TEXT");
   }
 
-  _onCrate(Database db, int version) async {
+  _onCreate(Database db, int version) async {
     Batch batch = db.batch();
     batch.execute('''
         CREATE TABLE "todos"
-        ("id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        (
+        "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
         "title" TEXT NOT NULL,
-        "todo" TEXT NOT NULL
-
+        "todo" TEXT NOT NULL,
+        "done" INTEGER NOT NULL
         )
 
         ''');
