@@ -62,6 +62,7 @@ class SQLdb {
   updateData(String sql) async {
     Database? mydb = await db;
     int response = await mydb!.rawUpdate(sql);
+    print('222222');
     return response;
   }
 

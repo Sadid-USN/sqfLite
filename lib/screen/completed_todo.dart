@@ -14,13 +14,17 @@ class CompletedTodo extends StatefulWidget {
 }
 
 class _CompletedTodoState extends State<CompletedTodo> {
+  int count = 0;
+
   SQLdb sqlDB = SQLdb();
   bool isLoading = true;
   List todos = [];
   int index = 0;
   Future read() async {
-    List<Map> response = await sqlDB.readData("SELECT * FROM todos");
-    todos.addAll(response);
+    List<Map> response =
+        await sqlDB.readData('''SELECT * FROM todos WHERE done = 1''');
+
+    todos = response.toList();
     isLoading = false;
     if (mounted) {
       setState(() {});
@@ -30,6 +34,12 @@ class _CompletedTodoState extends State<CompletedTodo> {
   @override
   void initState() {
     read();
+    // todos.forEach((element) {
+    //   if (element['done'] == 1) {
+    //     count++;
+    //   }
+    // });
+
     super.initState();
   }
 
@@ -80,7 +90,16 @@ class _CompletedTodoState extends State<CompletedTodo> {
                           activeColor: Theme.of(context).primaryColor,
                           checkColor: Colors.white,
                           value: true,
-                          onChanged: (_) {},
+                          onChanged: (_) async {
+                            int response = await sqlDB.updateData('''
+                       UPDATE todos SET
+                       done = 0
+                       WHERE id = "${todos[index]['id']}"
+                        ''');
+                            setState(() {
+                              read();
+                            });
+                          },
                         ),
                         const SizedBox(
                           width: 10,

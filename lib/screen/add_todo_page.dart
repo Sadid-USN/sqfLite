@@ -57,7 +57,7 @@ class _AddTodoState extends State<AddTodo> {
                          VALUES
                          ("${_titleController.text}",
                           "${_todoController.text}",
-                         "0"
+                          "0"
 
 
                           )

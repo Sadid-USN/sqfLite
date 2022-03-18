@@ -20,8 +20,9 @@ class _AllTodoPageState extends State<AllTodoPage> {
   bool boolValue = false;
 
   Future read() async {
-    List<Map> response = await sqlDB.readData("SELECT * FROM todos");
-    todos.addAll(response);
+    List<Map> response =
+        await sqlDB.readData("SELECT * FROM todos WHERE done = 0");
+    todos = response.toList();
     isLoading = false;
     if (mounted) {
       setState(() {});
@@ -136,7 +137,16 @@ class _AllTodoPageState extends State<AllTodoPage> {
                         children: [
                           Checkbox(
                             value: false,
-                            onChanged: (_) {},
+                            onChanged: (_) async {
+                              int response = await sqlDB.updateData('''
+                       UPDATE todos SET
+                       done = 1
+                       WHERE id = "${todos[index]['id']}"
+                        ''');
+                              setState(() {
+                                read();
+                              });
+                            },
                           ),
                           Expanded(
                             child: Column(
