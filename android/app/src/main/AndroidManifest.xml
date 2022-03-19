@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.sql_db">
    <application
-        android:label="sql_db"
+        android:label="Задачи: список целей"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

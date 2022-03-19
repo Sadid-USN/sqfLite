@@ -99,6 +99,15 @@ class _CompletedTodoState extends State<CompletedTodo> {
                             setState(() {
                               read();
                             });
+                            if (response > 0) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  duration: const Duration(milliseconds: 1000),
+                                  backgroundColor: Colors.orange[600],
+                                  content: const Text('Вы вернули задачу 🔙'),
+                                ),
+                              );
+                            }
                           },
                         ),
                         const SizedBox(

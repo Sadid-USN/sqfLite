@@ -52,15 +52,19 @@ class _AllTodoPageState extends State<AllTodoPage> {
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) {
-                    return EditPage(
-                      title: todos[index]['title'],
-                      todo: todos[index]['todo'],
-                      id: todos[index]['id'],
-                      done: todos[index]['done'],
-                    );
-                  }));
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return EditPage(
+                          title: todos[index]['title'],
+                          todo: todos[index]['todo'],
+                          id: todos[index]['id'],
+                          done: todos[index]['done'],
+                        );
+                      },
+                    ),
+                  );
                 },
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
@@ -146,6 +150,17 @@ class _AllTodoPageState extends State<AllTodoPage> {
                               setState(() {
                                 read();
                               });
+                              if (response > 0) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    duration:
+                                        const Duration(milliseconds: 1000),
+                                    backgroundColor: Colors.green[700],
+                                    content: const Text(
+                                        'Отлично! Цель достигнута 😎'),
+                                  ),
+                                );
+                              }
                             },
                           ),
                           Expanded(
