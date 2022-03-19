@@ -155,7 +155,7 @@ class _AllTodoPageState extends State<AllTodoPage> {
                                   SnackBar(
                                     duration:
                                         const Duration(milliseconds: 1000),
-                                    backgroundColor: Colors.green[700],
+                                    backgroundColor: Colors.green[600],
                                     content: const Text(
                                         'Отлично! Цель достигнута 😎'),
                                   ),
@@ -184,11 +184,11 @@ class _AllTodoPageState extends State<AllTodoPage> {
                                 Text(
                                   todos[index]['todo'],
                                   overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
+                                  maxLines: 2,
                                   style: TextStyle(
                                     overflow: TextOverflow.ellipsis,
                                     color: Colors.grey.shade900,
-                                    fontSize: 12,
+                                    fontSize: 14,
                                   ),
                                 ),
                               ],

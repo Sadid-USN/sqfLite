@@ -133,7 +133,7 @@ class _CompletedTodoState extends State<CompletedTodo> {
                               Text(
                                 todos[index]['todo'],
                                 overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
+                                maxLines: 2,
                                 style: TextStyle(
                                   color: Colors.grey.shade900,
                                   fontSize: 14,
