@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:sql_db/home_page.dart';
 import 'package:sql_db/screen/all_todo_page.dart';
 import 'package:sql_db/sql_db.dart';
+
+import '../main.dart';
 
 class AddTodo extends StatefulWidget {
   const AddTodo({Key? key}) : super(key: key);
@@ -25,7 +28,7 @@ class _AddTodoState extends State<AddTodo> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Новая задача'),
+          title: const LocaleText('newtask'),
           centerTitle: true,
         ),
         body: Container(
@@ -44,13 +47,16 @@ class _AddTodoState extends State<AddTodo> {
                         //   return null;
                         // }),
                         controller: _titleController,
-                        decoration:
-                            const InputDecoration(hintText: 'Заголовак'),
+                        decoration: InputDecoration(
+                          hintText: Locales.string(context, 'hinttitle'),
+                        ),
                       ),
                       TextFormField(
                         maxLines: 5,
                         controller: _todoController,
-                        decoration: const InputDecoration(hintText: 'Описание'),
+                        decoration: InputDecoration(
+                          hintText: Locales.string(context, 'hintdescription'),
+                        ),
                       ),
                       const SizedBox(
                         height: 15,
@@ -83,8 +89,8 @@ class _AddTodoState extends State<AddTodo> {
 
                           print("====== RESPONSE =======");
                         },
-                        child: const Text(
-                          'Сохранить',
+                        child: const LocaleText(
+                          'savebutton',
                           style: TextStyle(color: Colors.white),
                         ),
                       ),

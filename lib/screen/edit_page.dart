@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:sql_db/home_page.dart';
 import 'package:sql_db/sql_db.dart';
 
@@ -37,7 +38,7 @@ class _EditPageState extends State<EditPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Изменить задачу'),
+          title: const LocaleText('editappbar'),
           centerTitle: true,
         ),
         body: ListView(padding: const EdgeInsets.all(16.0), children: [
@@ -48,12 +49,16 @@ class _EditPageState extends State<EditPage> {
                 TextFormField(
                   maxLines: 1,
                   controller: _titleController,
-                  decoration: const InputDecoration(hintText: 'Заголовак'),
+                  decoration: InputDecoration(
+                    hintText: Locales.string(context, 'hinttitle'),
+                  ),
                 ),
                 TextFormField(
                   maxLines: 10,
                   controller: _todoController,
-                  decoration: const InputDecoration(hintText: 'Описание'),
+                  decoration: InputDecoration(
+                    hintText: Locales.string(context, 'hintdescription'),
+                  ),
                 ),
                 const SizedBox(
                   height: 10,
@@ -78,8 +83,8 @@ class _EditPageState extends State<EditPage> {
 
                     print("====== RESPONSE =======");
                   },
-                  child: const Text(
-                    'Изменить',
+                  child: const LocaleText(
+                    'editbutton',
                     style: TextStyle(color: Colors.white),
                   ),
                 ),

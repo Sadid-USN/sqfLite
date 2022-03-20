@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 
 import 'package:progress_indicators/progress_indicators.dart';
 
@@ -48,7 +49,7 @@ class _CompletedTodoState extends State<CompletedTodo> {
     return todos.isEmpty
         ? Center(
             child: JumpingText(
-              'Нет завершенных задач',
+              Locales.string(context, 'emptycompleted'),
               style: const TextStyle(fontSize: 16),
             ),
           )
@@ -104,7 +105,7 @@ class _CompletedTodoState extends State<CompletedTodo> {
                                 SnackBar(
                                   duration: const Duration(milliseconds: 1000),
                                   backgroundColor: Colors.orange[600],
-                                  content: const Text('Вы вернули задачу 🔙'),
+                                  content: const LocaleText('returntaskbar'),
                                 ),
                               );
                             }

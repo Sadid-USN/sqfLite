@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sql_db/home_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Locales.init(
+    [
+      'en',
+      'ru',
+      'uk',
+      'ar',
+    ],
+  );
   runApp(const MyApp());
 }
 
@@ -12,15 +22,20 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        textTheme:
-            GoogleFonts.ptSerifCaptionTextTheme(Theme.of(context).textTheme),
-        primarySwatch: Colors.green,
+    return LocaleBuilder(
+      builder: (locale) => MaterialApp(
+        localizationsDelegates: Locales.delegates,
+        supportedLocales: Locales.supportedLocales,
+        locale: locale,
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          textTheme:
+              GoogleFonts.ptSerifCaptionTextTheme(Theme.of(context).textTheme),
+          primarySwatch: Colors.green,
+        ),
+        home: const HomePage(),
       ),
-      home: const HomePage(),
     );
   }
 }

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 
 import '../sql_db.dart';
-import 'completed_todo.dart';
+
 import 'edit_page.dart';
 
 class AllTodoPage extends StatefulWidget {
@@ -40,7 +41,7 @@ class _AllTodoPageState extends State<AllTodoPage> {
     return todos.isEmpty
         ? Center(
             child: JumpingText(
-              '🥺 ПУСТО 🥺',
+              Locales.string(context, 'empty'),
               style: const TextStyle(fontSize: 16),
             ),
           )
@@ -88,7 +89,7 @@ class _AllTodoPageState extends State<AllTodoPage> {
                           backgroundColor: Colors.green.withOpacity(0.6),
                           foregroundColor: Colors.white,
                           icon: Icons.edit,
-                          label: 'Изменить',
+                          label: Locales.string(context, 'editbutton'),
                         ),
                       ],
                     ),
@@ -108,7 +109,7 @@ class _AllTodoPageState extends State<AllTodoPage> {
                                 const SnackBar(
                                   duration: Duration(milliseconds: 1100),
                                   backgroundColor: Colors.red,
-                                  content: Text('Задача удалена 🗑️'),
+                                  content: LocaleText('deletesnackbar'),
                                 ),
                               );
                               todos.removeWhere((element) =>
@@ -119,7 +120,7 @@ class _AllTodoPageState extends State<AllTodoPage> {
                           backgroundColor: Colors.red.withOpacity(0.8),
                           foregroundColor: Colors.white,
                           icon: Icons.delete,
-                          label: 'Удалить',
+                          label: Locales.string(context, 'delete'),
                         ),
                       ],
                     ),
@@ -156,8 +157,8 @@ class _AllTodoPageState extends State<AllTodoPage> {
                                     duration:
                                         const Duration(milliseconds: 1000),
                                     backgroundColor: Colors.green[600],
-                                    content: const Text(
-                                        'Отлично! Цель достигнута 😎'),
+                                    content:
+                                        const LocaleText('completednackbar'),
                                   ),
                                 );
                               }

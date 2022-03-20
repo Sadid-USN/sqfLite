@@ -1,0 +1,23 @@
+{
+    "todo": "Tasks",
+    "language": "language",
+    "completed":"Completed",
+    "editappbar":"Edit task",
+    "labeltask":"Task",
+    "delete":"delete",
+    "deletesnackbar":"You deleted the task 🗑️",
+    "completednackbar":"Well done! you completed the task 😎",
+    "returntaskbar":"You return the task 🔙",
+    "editbutton":"Edit",
+    "savebutton":"Save",
+    "hinttitle":"title",
+    "hintdescription":"Description",
+    "newtask":"New task",
+    "empty":"🥺 Empty 🥺",
+    "emptycompleted":"There's no completed tasks",
+    "titledialog":"Exit",
+    "contentdialog":"Are you sure want to exit",
+    "stay":"Stay",
+    "exit":"Go out"
+
+}
