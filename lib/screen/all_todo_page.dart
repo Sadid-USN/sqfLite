@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 
 import '../sql_db.dart';
@@ -34,6 +35,33 @@ class _AllTodoPageState extends State<AllTodoPage> {
   void initState() {
     read();
     super.initState();
+  }
+
+  BannerAd? _bannerAd;
+  bool isAdLoaded = false;
+  @override
+  void dispose() {
+    _bannerAd!.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _bannerAd = BannerAd(
+        size: AdSize.banner,
+        adUnitId: 'ca-app-pub-6636812855826330/9145663013',
+        listener: BannerAdListener(onAdLoaded: (ad) {
+          setState(() {
+            isAdLoaded = true;
+          });
+          print('<<<<Banner Ad Loaded>>>');
+        }, onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+          print(error.message);
+        }),
+        request: const AdRequest());
+    _bannerAd!.load();
   }
 
   @override
@@ -124,79 +152,91 @@ class _AllTodoPageState extends State<AllTodoPage> {
                         ),
                       ],
                     ),
-                    child: Container(
-                      margin: const EdgeInsets.all(10),
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(20.0),
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(12.0)),
-                        color: Color(0xffF3EEE2),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black26,
-                              offset: Offset(0.0, 2.0),
-                              blurRadius: 6.0)
-                        ],
-                      ),
-                      child: Row(
-                        children: [
-                          Checkbox(
-                            value: false,
-                            onChanged: (_) async {
-                              int response = await sqlDB.updateData('''
-                       UPDATE todos SET
-                       done = 1
-                       WHERE id = "${todos[index]['id']}"
-                        ''');
-                              setState(() {
-                                read();
-                              });
-                              if (response > 0) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    duration:
-                                        const Duration(milliseconds: 1000),
-                                    backgroundColor: Colors.green[600],
-                                    content:
-                                        const LocaleText('completednackbar'),
-                                  ),
-                                );
-                              }
-                            },
+                    child: Column(
+                      children: [
+                        isAdLoaded
+                            ? Container(
+                                height: _bannerAd!.size.height.toDouble(),
+                                width: _bannerAd!.size.width.toDouble(),
+                                child: AdWidget(ad: _bannerAd!),
+                              )
+                            : const SizedBox(),
+                        Container(
+                          margin: const EdgeInsets.all(10),
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(20.0),
+                          decoration: const BoxDecoration(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(12.0)),
+                            color: Color(0xffF3EEE2),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black26,
+                                  offset: Offset(0.0, 2.0),
+                                  blurRadius: 6.0)
+                            ],
                           ),
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  todos[index]['title'],
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                    overflow: TextOverflow.ellipsis,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.blueGrey.shade700,
-                                    fontSize: 18,
-                                  ),
+                          child: Row(
+                            children: [
+                              Checkbox(
+                                value: false,
+                                onChanged: (_) async {
+                                  int response = await sqlDB.updateData('''
+                           UPDATE todos SET
+                           done = 1
+                           WHERE id = "${todos[index]['id']}"
+                            ''');
+                                  setState(() {
+                                    read();
+                                  });
+                                  if (response > 0) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        duration:
+                                            const Duration(milliseconds: 1000),
+                                        backgroundColor: Colors.green[600],
+                                        content: const LocaleText(
+                                            'completednackbar'),
+                                      ),
+                                    );
+                                  }
+                                },
+                              ),
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      todos[index]['title'],
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                        overflow: TextOverflow.ellipsis,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.blueGrey.shade700,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 14,
+                                    ),
+                                    Text(
+                                      todos[index]['todo'],
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 2,
+                                      style: TextStyle(
+                                        overflow: TextOverflow.ellipsis,
+                                        color: Colors.grey.shade900,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(
-                                  height: 14,
-                                ),
-                                Text(
-                                  todos[index]['todo'],
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 2,
-                                  style: TextStyle(
-                                    overflow: TextOverflow.ellipsis,
-                                    color: Colors.grey.shade900,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
