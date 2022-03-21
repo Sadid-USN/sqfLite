@@ -42,7 +42,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 flutter_icons:
-  image_path: "icons/icon.png"
+  image_path: "icons/icon_2.png"
   android: true
   ios: true
 
