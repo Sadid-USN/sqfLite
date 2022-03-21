@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 import 'package:sql_db/home_page.dart';
-import 'package:sql_db/screen/all_todo_page.dart';
-import 'package:sql_db/sql_db.dart';
 
-import '../main.dart';
+import 'package:sql_db/sql_db.dart';
 
 class AddTodo extends StatefulWidget {
   const AddTodo({Key? key}) : super(key: key);
@@ -19,12 +18,34 @@ class _AddTodoState extends State<AddTodo> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _todoController = TextEditingController();
+  Future<bool?> exitDialog() {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Center(
+              child: LocaleText('titleadddialog'),
+            ),
+            content: const LocaleText('contentadddialog'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+                child: const LocaleText('stayadd'),
+              ),
+            ],
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        return false;
+        bool? result = await exitDialog();
+        result ??= false;
+        return result;
       },
       child: Scaffold(
         appBar: AppBar(
@@ -91,7 +112,7 @@ class _AddTodoState extends State<AddTodo> {
                         },
                         child: const LocaleText(
                           'savebutton',
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(fontFamily: '', color: Colors.white),
                         ),
                       ),
                     ],

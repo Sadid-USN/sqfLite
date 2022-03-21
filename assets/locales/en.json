@@ -16,8 +16,13 @@
     "empty":"🥺 Empty 🥺",
     "emptycompleted":"There's no completed tasks",
     "titledialog":"Exit",
-    "contentdialog":"Are you sure want to exit",
+    "contentdialog":"Are you sure want to exit the app?",
     "stay":"Stay",
-    "exit":"Go out"
+    "exit":"Go out",
+
+    "titleadddialog":"Note",
+    "contentadddialog":"To exit to the main screen click on the save button.",
+    "contenteditalog":"To exit to the main screen click on the edit button.",
+    "stayadd":"Got it"
 
 }

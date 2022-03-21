@@ -37,7 +37,7 @@ class _LangugesPageState extends State<LangugesPage> {
             onTap: () => LocaleNotifier.of(context)!.change('ar'),
           ),
           ListTile(
-            title: const Text('🇷🇺 Руский'),
+            title: const Text('🇷🇺 Русский'),
             onTap: () => LocaleNotifier.of(context)!.change('ru'),
           ),
           // ListTile(

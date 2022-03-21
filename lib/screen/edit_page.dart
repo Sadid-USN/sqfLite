@@ -30,11 +30,34 @@ class _EditPageState extends State<EditPage> {
     super.initState();
   }
 
+  Future<bool?> exitDialog() {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Center(
+              child: LocaleText('titleadddialog'),
+            ),
+            content: const LocaleText('contenteditalog'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+                child: const LocaleText('stayadd'),
+              ),
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        return false;
+        bool? result = await exitDialog();
+        result ??= false;
+        return result;
       },
       child: Scaffold(
         appBar: AppBar(
