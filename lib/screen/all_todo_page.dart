@@ -1,6 +1,8 @@
+import 'package:custom_check_box/custom_check_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 
@@ -85,7 +87,10 @@ class _AllTodoPageState extends State<AllTodoPage> {
                       child: AdWidget(ad: _bannerAd!),
                     )
                   : const SizedBox(),
-              ListView.builder(
+              MasonryGridView.count(
+                crossAxisCount: 2,
+                mainAxisSpacing: 1,
+                crossAxisSpacing: 1,
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 itemCount: todos.length,
                 physics: const BouncingScrollPhysics(),
@@ -181,33 +186,13 @@ class _AllTodoPageState extends State<AllTodoPage> {
                                       blurRadius: 6.0)
                                 ],
                               ),
-                              child: Row(
+                              child: Stack(
                                 children: [
-                                  Checkbox(
-                                    value: false,
-                                    onChanged: (_) async {
-                                      int response = await sqlDB.updateData('''
-                               UPDATE todos SET
-                               done = 1
-                               WHERE id = "${todos[index]['id']}"
-                                ''');
-                                      setState(() {
-                                        read();
-                                      });
-                                      if (response > 0) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            duration: const Duration(
-                                                milliseconds: 1000),
-                                            backgroundColor: Colors.green[600],
-                                            content: const LocaleText(
-                                                'completednackbar'),
-                                          ),
-                                        );
-                                      }
-                                    },
-                                  ),
+                                  //   Checkbox(
+                                  //     value: false,
+                                  //     onChanged: (_) async {
+                                  //
+                                  //   ),
                                   Expanded(
                                     child: Column(
                                       mainAxisAlignment:
@@ -239,6 +224,43 @@ class _AllTodoPageState extends State<AllTodoPage> {
                                           ),
                                         ),
                                       ],
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: -10,
+                                    right: -10,
+                                    child: CustomCheckBox(
+                                      value: false,
+                                      shouldShowBorder: true,
+                                      borderColor: Colors.yellow[800],
+                                      checkedFillColor: Colors.green,
+                                      borderRadius: 5,
+                                      borderWidth: 1,
+                                      checkBoxSize: 15,
+                                      onChanged: (_) async {
+                                        int response =
+                                            await sqlDB.updateData('''
+                                           UPDATE todos SET
+                                           done = 1
+                                           WHERE id = "${todos[index]['id']}"
+                                           ''');
+                                        setState(() {
+                                          read();
+                                        });
+                                        if (response > 0) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              duration: const Duration(
+                                                  milliseconds: 1000),
+                                              backgroundColor:
+                                                  Colors.green[600],
+                                              content: const LocaleText(
+                                                  'completednackbar'),
+                                            ),
+                                          );
+                                        }
+                                      },
                                     ),
                                   ),
                                 ],

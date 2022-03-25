@@ -1,3 +1,4 @@
+import 'package:custom_check_box/custom_check_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 
@@ -84,33 +85,66 @@ class _CompletedTodoState extends State<CompletedTodo> {
                             blurRadius: 6.0)
                       ],
                     ),
-                    child: Row(
+                    child: Stack(
                       // mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Checkbox(
-                          activeColor: Theme.of(context).primaryColor,
-                          checkColor: Colors.white,
-                          value: true,
-                          onChanged: (_) async {
-                            int response = await sqlDB.updateData('''
+                        Positioned(
+                          top: -10,
+                          right: -10,
+                          child: CustomCheckBox(
+                            value: true,
+                            shouldShowBorder: true,
+                            borderColor: Colors.blueGrey[800],
+                            checkedFillColor: Colors.green,
+                            borderRadius: 5,
+                            borderWidth: 1,
+                            checkBoxSize: 15,
+                            onChanged: (_) async {
+                              int response = await sqlDB.updateData('''
                        UPDATE todos SET
                        done = 0
                        WHERE id = "${todos[index]['id']}"
                         ''');
-                            setState(() {
-                              read();
-                            });
-                            if (response > 0) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  duration: const Duration(milliseconds: 1000),
-                                  backgroundColor: Colors.orange[600],
-                                  content: const LocaleText('returntaskbar'),
-                                ),
-                              );
-                            }
-                          },
+                              setState(() {
+                                read();
+                              });
+                              if (response > 0) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    duration:
+                                        const Duration(milliseconds: 1000),
+                                    backgroundColor: Colors.orange[600],
+                                    content: const LocaleText('returntaskbar'),
+                                  ),
+                                );
+                              }
+                            },
+                          ),
                         ),
+                        //   Checkbox(
+                        //     activeColor: Theme.of(context).primaryColor,
+                        //     checkColor: Colors.white,
+                        //     value: true,
+                        //     onChanged: (_) async {
+                        //       int response = await sqlDB.updateData('''
+                        //  UPDATE todos SET
+                        //  done = 0
+                        //  WHERE id = "${todos[index]['id']}"
+                        //   ''');
+                        //       setState(() {
+                        //         read();
+                        //       });
+                        //       if (response > 0) {
+                        //         ScaffoldMessenger.of(context).showSnackBar(
+                        //           SnackBar(
+                        //             duration: const Duration(milliseconds: 1000),
+                        //             backgroundColor: Colors.orange[600],
+                        //             content: const LocaleText('returntaskbar'),
+                        //           ),
+                        //         );
+                        //       }
+                        //     },
+                        //   ),
                         const SizedBox(
                           width: 10,
                         ),

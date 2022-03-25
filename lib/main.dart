@@ -10,7 +10,6 @@ void main() async {
       'en',
       'ru',
       'uk',
-      'ar',
     ],
   );
   runApp(const MyApp());

@@ -14,7 +14,7 @@ class _LangugesPageState extends State<LangugesPage> {
   bool isAdLoaded = false;
   @override
   void dispose() {
-    _bannerAd!.dispose();
+    // _bannerAd!.dispose();
     super.dispose();
   }
 
