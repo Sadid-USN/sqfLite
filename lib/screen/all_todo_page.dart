@@ -1,8 +1,7 @@
-import 'package:custom_check_box/custom_check_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 
@@ -75,7 +74,8 @@ class _AllTodoPageState extends State<AllTodoPage> {
               style: const TextStyle(fontSize: 16),
             ),
           )
-        : Column(
+        : ListView(
+            physics: const BouncingScrollPhysics(),
             children: [
               const SizedBox(
                 height: 10,
@@ -87,10 +87,12 @@ class _AllTodoPageState extends State<AllTodoPage> {
                       child: AdWidget(ad: _bannerAd!),
                     )
                   : const SizedBox(),
-              MasonryGridView.count(
-                crossAxisCount: 2,
-                mainAxisSpacing: 1,
-                crossAxisSpacing: 1,
+              GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    childAspectRatio: 3 / 2.5,
+                    crossAxisSpacing: 1,
+                    mainAxisSpacing: 1,
+                    crossAxisCount: 2),
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 itemCount: todos.length,
                 physics: const BouncingScrollPhysics(),
@@ -115,7 +117,7 @@ class _AllTodoPageState extends State<AllTodoPage> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: Slidable(
-                        // key: Key(todo!.id),
+                        key: Key(todos[index]['id'].toString()),
                         startActionPane: ActionPane(
                           motion: const ScrollMotion(),
                           children: [
@@ -172,7 +174,8 @@ class _AllTodoPageState extends State<AllTodoPage> {
                         child: Column(
                           children: [
                             Container(
-                              margin: const EdgeInsets.all(10),
+                              height: 120,
+                              margin: const EdgeInsets.all(8),
                               width: double.infinity,
                               padding: const EdgeInsets.all(20.0),
                               decoration: const BoxDecoration(
@@ -186,13 +189,8 @@ class _AllTodoPageState extends State<AllTodoPage> {
                                       blurRadius: 6.0)
                                 ],
                               ),
-                              child: Stack(
+                              child: Row(
                                 children: [
-                                  //   Checkbox(
-                                  //     value: false,
-                                  //     onChanged: (_) async {
-                                  //
-                                  //   ),
                                   Expanded(
                                     child: Column(
                                       mainAxisAlignment:
@@ -211,7 +209,7 @@ class _AllTodoPageState extends State<AllTodoPage> {
                                           ),
                                         ),
                                         const SizedBox(
-                                          height: 14,
+                                          height: 5,
                                         ),
                                         Text(
                                           todos[index]['todo'],
@@ -226,42 +224,32 @@ class _AllTodoPageState extends State<AllTodoPage> {
                                       ],
                                     ),
                                   ),
-                                  Positioned(
-                                    top: -10,
-                                    right: -10,
-                                    child: CustomCheckBox(
-                                      value: false,
-                                      shouldShowBorder: true,
-                                      borderColor: Colors.yellow[800],
-                                      checkedFillColor: Colors.green,
-                                      borderRadius: 5,
-                                      borderWidth: 1,
-                                      checkBoxSize: 15,
-                                      onChanged: (_) async {
-                                        int response =
-                                            await sqlDB.updateData('''
-                                           UPDATE todos SET
-                                           done = 1
-                                           WHERE id = "${todos[index]['id']}"
-                                           ''');
-                                        setState(() {
-                                          read();
-                                        });
-                                        if (response > 0) {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              duration: const Duration(
-                                                  milliseconds: 1000),
-                                              backgroundColor:
-                                                  Colors.green[600],
-                                              content: const LocaleText(
-                                                  'completednackbar'),
-                                            ),
-                                          );
-                                        }
-                                      },
-                                    ),
+                                  IconButton(
+                                    color: Colors.green.shade200,
+                                    onPressed: () async {
+                                      int response = await sqlDB.updateData('''
+                                         UPDATE todos SET
+                                         done = 1
+                                         WHERE id = "${todos[index]['id']}"
+                                         ''');
+                                      setState(() {
+                                        read();
+                                      });
+
+                                      if (response > 0) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            duration: const Duration(
+                                                milliseconds: 1000),
+                                            backgroundColor: Colors.green[600],
+                                            content: const LocaleText(
+                                                'completednackbar'),
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    icon: const Icon(Icons.circle_outlined),
                                   ),
                                 ],
                               ),
