@@ -73,6 +73,7 @@ class _HomePageState extends State<HomePage> {
       },
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: Theme.of(context).primaryColor,
           actions: [
             IconButton(
               onPressed: () {
@@ -94,6 +95,7 @@ class _HomePageState extends State<HomePage> {
           centerTitle: true,
         ),
         floatingActionButton: FloatingActionButton(
+          backgroundColor: Theme.of(context).primaryColor,
           onPressed: () {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(

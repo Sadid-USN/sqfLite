@@ -27,11 +27,11 @@ class MyApp extends StatelessWidget {
         supportedLocales: Locales.supportedLocales,
         locale: locale,
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'Todo app',
         theme: ThemeData(
           textTheme:
               GoogleFonts.ptSerifCaptionTextTheme(Theme.of(context).textTheme),
-          primarySwatch: Colors.green,
+          primaryColor: const Color(0xff1E4060),
         ),
         home: const HomePage(),
       ),

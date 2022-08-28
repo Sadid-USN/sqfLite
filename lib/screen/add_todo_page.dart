@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 import 'package:sql_db/home_page.dart';
 
@@ -49,6 +48,7 @@ class _AddTodoState extends State<AddTodo> {
       },
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: Theme.of(context).primaryColor,
           title: const LocaleText('newtask'),
           centerTitle: true,
         ),
@@ -83,7 +83,7 @@ class _AddTodoState extends State<AddTodo> {
                         height: 15,
                       ),
                       MaterialButton(
-                        color: Colors.green,
+                        color: Theme.of(context).primaryColor,
                         onPressed: () async {
                           int response = await sqlDB.insertData('''
                            INSERT INTO todos (`title`, `todo`, `done`)

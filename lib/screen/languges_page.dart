@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class LangugesPage extends StatefulWidget {
   const LangugesPage({Key? key}) : super(key: key);
@@ -10,7 +9,7 @@ class LangugesPage extends StatefulWidget {
 }
 
 class _LangugesPageState extends State<LangugesPage> {
-  BannerAd? _bannerAd;
+  //BannerAd? _bannerAd;
   bool isAdLoaded = false;
   @override
   void dispose() {
@@ -18,24 +17,24 @@ class _LangugesPageState extends State<LangugesPage> {
     super.dispose();
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _bannerAd = BannerAd(
-        size: AdSize.banner,
-        adUnitId: 'ca-app-pub-6636812855826330/9145663013',
-        listener: BannerAdListener(onAdLoaded: (ad) {
-          setState(() {
-            isAdLoaded = true;
-          });
-          print('<<<<Banner Ad Loaded>>>');
-        }, onAdFailedToLoad: (ad, error) {
-          ad.dispose();
-          print(error.message);
-        }),
-        request: const AdRequest());
-    _bannerAd!.load();
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   _bannerAd = BannerAd(
+  //       size: AdSize.banner,
+  //       adUnitId: 'ca-app-pub-6636812855826330/9145663013',
+  //       listener: BannerAdListener(onAdLoaded: (ad) {
+  //         setState(() {
+  //           isAdLoaded = true;
+  //         });
+  //         print('<<<<Banner Ad Loaded>>>');
+  //       }, onAdFailedToLoad: (ad, error) {
+  //         ad.dispose();
+  //         print(error.message);
+  //       }),
+  //       request: const AdRequest());
+  //   _bannerAd!.load();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -46,14 +45,6 @@ class _LangugesPageState extends State<LangugesPage> {
       ),
       body: Column(
         children: [
-          isAdLoaded
-              ? Container(
-                  height: _bannerAd!.size.height.toDouble(),
-                  width: _bannerAd!.size.width.toDouble(),
-                  child: AdWidget(ad: _bannerAd!),
-                )
-              : const SizedBox(),
-
           const SizedBox(
             height: 20,
           ),
