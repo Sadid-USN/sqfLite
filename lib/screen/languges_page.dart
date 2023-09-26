@@ -40,6 +40,7 @@ class _LangugesPageState extends State<LangugesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
         title: const LocaleText('Language'),
         centerTitle: true,
       ),
