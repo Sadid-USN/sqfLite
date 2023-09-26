@@ -35,125 +35,127 @@ class AddTaskPage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
         child: 
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Add Task",
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            Consumer<HomePageController>(
-              builder: (context, value, child) =>  CustomField(
-                controller: value.titleEditingController,
-                title: "Title",
-                hintText: 'Enter title here',
+        SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Add Task",
+                style: Theme.of(context).textTheme.titleLarge,
               ),
-            ),
-            Consumer<HomePageController>(
-              builder: (context, value, child) =>  CustomField(
-                controller: value.noteEditingController,
-                title: "Note",
-                hintText: 'Enter note here',
+              Consumer<HomePageController>(
+                builder: (context, value, child) =>  CustomField(
+                  controller: value.titleEditingController,
+                  title: "Title",
+                  hintText: 'Enter title here',
+                ),
               ),
-            ),
-            Consumer<HomePageController>(
-              builder: (context, value, child) => CustomField(
-                title: "Date",
-                hintText: dateFormat,
-                widget: IconButton(
-                  onPressed: () {
-                    value.getDateFormat(context);
-                  },
-                  icon: const Icon(
-                    Icons.calendar_month,
+              Consumer<HomePageController>(
+                builder: (context, value, child) =>  CustomField(
+                  controller: value.noteEditingController,
+                  title: "Note",
+                  hintText: 'Enter note here',
+                ),
+              ),
+              Consumer<HomePageController>(
+                builder: (context, value, child) => CustomField(
+                  title: "Date",
+                  hintText: dateFormat,
+                  widget: IconButton(
+                    onPressed: () {
+                      value.getDateFormat(context);
+                    },
+                    icon: const Icon(
+                      Icons.calendar_month,
+                    ),
                   ),
                 ),
               ),
-            ),
-           Consumer<HomePageController>(
-            builder: (context, value, child) => Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CustomField(
-                      width: MediaQuery.of(context).size.width / 2.3,
-                      title: "Start Time",
-                      hintText: value.startTime,
-                      widget: IconButton(
-                        onPressed: () {
-                          value.getTimeFromUser(
-                              isStartTime: true, context: context);
-                        },
-                        icon: const Icon(Icons.access_time_rounded),
-                      ),
-                    ),
-                    Consumer<HomePageController>(
-                      builder: (context, value, child) => CustomField(
+             Consumer<HomePageController>(
+              builder: (context, value, child) => Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomField(
                         width: MediaQuery.of(context).size.width / 2.3,
-                        title: "End Time",
-                        hintText: value.endTime,
+                        title: "Start Time",
+                        hintText: value.startTime,
                         widget: IconButton(
                           onPressed: () {
                             value.getTimeFromUser(
-                                isStartTime: false, context: context);
+                                isStartTime: true, context: context);
                           },
                           icon: const Icon(Icons.access_time_rounded),
                         ),
                       ),
-                    ),
-                  ],
+                      Consumer<HomePageController>(
+                        builder: (context, value, child) => CustomField(
+                          width: MediaQuery.of(context).size.width / 2.3,
+                          title: "End Time",
+                          hintText: value.endTime,
+                          widget: IconButton(
+                            onPressed: () {
+                              value.getTimeFromUser(
+                                  isStartTime: false, context: context);
+                            },
+                            icon: const Icon(Icons.access_time_rounded),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+             ),
+               
+              Consumer<HomePageController>(
+                builder: (context, value, child) =>  CustomField(
+                  title: "Reminder",
+                  hintText: "${value.selectedRemaind} minuts early",
+                  widget: Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: DropdownButton<String>(
+                        underline: const SizedBox(),
+                        icon: const Icon(Icons.keyboard_arrow_down),
+                        elevation: 4,
+                        items: value.reminList
+                            .map<DropdownMenuItem<String>>((int element) {
+                          return DropdownMenuItem<String>(
+                            value: element.toString(),
+                            child: Text(element.toString()),
+                          );
+                        }).toList(),
+                        onChanged: value.onRemaindChanged,
+                      )),
                 ),
-           ),
-       
-            Consumer<HomePageController>(
-              builder: (context, value, child) =>  CustomField(
-                title: "Reminder",
-                hintText: "${value.selectedRemaind} minuts early",
-                widget: Padding(
+              ),
+                Consumer<HomePageController>(
+                  builder: (context, value, child) =>  CustomField(
+                  title: "Repeat",
+                  hintText: value.selectedRepeat,
+                  widget: Padding(
                     padding: const EdgeInsets.only(right: 8),
                     child: DropdownButton<String>(
                       underline: const SizedBox(),
                       icon: const Icon(Icons.keyboard_arrow_down),
                       elevation: 4,
-                      items: value.reminList
-                          .map<DropdownMenuItem<String>>((int element) {
+                      items: value.repeatList
+                          .map<DropdownMenuItem<String>>((String repeat) {
                         return DropdownMenuItem<String>(
-                          value: element.toString(),
-                          child: Text(element.toString()),
+                          value: repeat,
+                          child: Text(
+                            repeat,
+                          ),
                         );
                       }).toList(),
-                      onChanged: value.onRemaindChanged,
-                    )),
-              ),
-            ),
-              Consumer<HomePageController>(
-                builder: (context, value, child) =>  CustomField(
-                title: "Repeat",
-                hintText: value.selectedRepeat,
-                widget: Padding(
-                  padding: const EdgeInsets.only(right: 8),
-                  child: DropdownButton<String>(
-                    underline: const SizedBox(),
-                    icon: const Icon(Icons.keyboard_arrow_down),
-                    elevation: 4,
-                    items: value.repeatList
-                        .map<DropdownMenuItem<String>>((String repeat) {
-                      return DropdownMenuItem<String>(
-                        value: repeat,
-                        child: Text(
-                          repeat,
-                        ),
-                      );
-                    }).toList(),
-                    onChanged: value.onRepeatChanged,
+                      onChanged: value.onRepeatChanged,
+                    ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-            const ColorPalet()
-          ],
+              const SizedBox(
+                height: 12,
+              ),
+              const ColorPalet()
+            ],
+          ),
         ),
       ),
     );

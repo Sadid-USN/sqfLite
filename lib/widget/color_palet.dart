@@ -73,6 +73,7 @@ class ColorPalet extends StatelessWidget {
             title: "Create Task",
             onPressed: () async {
               controller.validation(context);
+
               controller.getTasks();
               await Navigator.of(context).pushReplacement(
                 MaterialPageRoute(

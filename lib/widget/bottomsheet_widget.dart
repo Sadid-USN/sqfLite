@@ -24,6 +24,7 @@ class BottomSheetWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
     return Container(
+    
       padding: const EdgeInsets.only(top: 4.0),
       height: task.isCompleted == 1 ? size.height * 0.30 : size.height * 0.32,
       width: size.width,
@@ -31,6 +32,7 @@ class BottomSheetWidget extends StatelessWidget {
       child: Column(
         children: [
           Container(
+            margin: const EdgeInsets.only(bottom: 16),
             height: 4.0,
             width: size.width / 3,
             decoration: BoxDecoration(
@@ -38,7 +40,8 @@ class BottomSheetWidget extends StatelessWidget {
               color: loadThemeFromBox ? Colors.grey : Colors.grey.shade300,
             ),
           ),
-          task.isCompleted == 1 ? const SizedBox(height: 40) : const Spacer(),
+          task.isCompleted == 1 ? const SizedBox(height: 40) : const SizedBox(height: 16),
+
           BottomSheetButton(
             isTaskCompleted: task.isCompleted == 1 ? true : false,
             color: Colors.indigoAccent,
@@ -50,14 +53,14 @@ class BottomSheetWidget extends StatelessWidget {
             title: "Delete Task",
             onPressed: onDeletePressed,
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
           BottomSheetButton(
             borderColor: Colors.white,
             color: Colors.blueGrey.shade400,
             title: "Close",
             onPressed: onClosePressed,
           ),
-          const SizedBox(height: 40),
+          
         ],
       ),
     );

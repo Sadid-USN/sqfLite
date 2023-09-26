@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
-import 'package:get/get.dart';
+
 
 import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:sql_db/controllers/home_page_controller.dart';
+import 'package:sql_db/core/notify_helper.dart';
 
 import 'package:sql_db/screen/home_page.dart';
-import 'package:sql_db/core/sql_db.dart';
-import 'package:sql_db/theme/themes.dart';
+import 'package:sql_db/core/db_helper.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  NotificationHelper().initNotification();
   DBHelper.initDB();
   await GetStorage.init();
   await Locales.init(

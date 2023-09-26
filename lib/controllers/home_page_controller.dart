@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
-import 'package:sql_db/core/sql_db.dart';
+import 'package:sql_db/core/db_helper.dart';
 import 'package:sql_db/theme/themes.dart';
 
 import 'package:sql_db/widget/bottomsheet_widget.dart';
@@ -66,9 +66,20 @@ class HomePageController extends ChangeNotifier {
             repeat: selectedRepeat));
   }
 
+  final bool _isReady = false;
+  get isReady => _isReady;
+  void onReady() {
+    if (isReady == true) {
+      getTasks();
+      notifyListeners();
+    }
+  }
+
   void getTasks() async {
     List<Map<String, dynamic>> tasks = await DBHelper.query();
-    taskList.assignAll(tasks.map((data) => Task.fromJson(data)).toList());
+    taskList.clear();
+    taskList.addAll(tasks.map((data) => Task.fromJson(data)).toList());
+
     notifyListeners();
   }
 
@@ -100,6 +111,11 @@ class HomePageController extends ChangeNotifier {
   ThemeData get themeData {
     bool isDarkMode = loadThemeFromBox();
     return isDarkMode ? Themes.dark : Themes.light;
+  }
+
+  void onDateChange(DateTime date) {
+    selectedDate = date;
+    notifyListeners();
   }
 
   getDateFormat(BuildContext context) async {
@@ -142,11 +158,7 @@ class HomePageController extends ChangeNotifier {
         initialTime: TimeOfDay(
           hour: int.parse(startTime.split(":")[0]),
           minute: int.parse(startTime.split(":")[1].split(" ")[0]),
-
-          
         ));
-
-        
   }
 
   void onRemaindChanged(String? newvalue) {
@@ -166,10 +178,13 @@ class HomePageController extends ChangeNotifier {
 
   void onShowBottomSheet(BuildContext context, Task task) {
     showBottomSheet(
-      enableDrag: true,
+        enableDrag: true,
         context: context,
         builder: (context) {
-          return BottomSheetWidget(
+          return 
+          
+          
+          BottomSheetWidget(
             context: context,
             task: task,
             onTaskCompletedPressed: () {
@@ -188,4 +203,6 @@ class HomePageController extends ChangeNotifier {
 
     notifyListeners();
   }
+
+
 }

@@ -1,6 +1,7 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import 'package:sql_db/theme/themes.dart';
@@ -8,7 +9,7 @@ import 'package:sql_db/widget/header.dart';
 import 'package:sql_db/widget/task_tile.dart';
 import '../controllers/home_page_controller.dart';
 
-//! 44:17
+//! 1:19
 
 class HomePage extends StatefulWidget {
   final BuildContext context;
@@ -25,13 +26,16 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    context.read<HomePageController>().getTasks();
+
+    setState(() {
+      context.read<HomePageController>().getTasks();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    DateTime selectedDay = DateTime.now();
-    var changeIcon = Provider.of<HomePageController>(context).loadThemeFromBox();
+    var changeIcon =
+        Provider.of<HomePageController>(context).loadThemeFromBox();
 
     return Scaffold(
       appBar: AppBar(
@@ -71,9 +75,7 @@ class _HomePageState extends State<HomePage> {
                 dateTextStyle: Theme.of(context).textTheme.titleMedium!,
                 dayTextStyle: Theme.of(context).textTheme.titleSmall!,
                 selectionColor: primaryColor,
-                onDateChange: (date) {
-                  controller.selectedDate = date;
-                },
+                onDateChange: controller.onDateChange,
               ),
             ),
 
@@ -85,23 +87,47 @@ class _HomePageState extends State<HomePage> {
                   itemBuilder: (context, index) {
                     var task = controller.taskList[index];
 
-                    return AnimationConfiguration.staggeredList(
-                      position: index,
-                      child: SlideAnimation(
-                        child: FadeInAnimation(
-                          child: Row(
-                            children: [
-                              TaskTile(
-                                task: task,
-                                onPressed: () {
-                                  value.onShowBottomSheet(context,task);
-                                },
-                              ),
-                            ],
+                    if (task.repeat == "Daily") {
+                      return AnimationConfiguration.staggeredList(
+                        position: index,
+                        child: SlideAnimation(
+                          child: FadeInAnimation(
+                            child: Row(
+                              children: [
+                                TaskTile(
+                                  task: task,
+                                  onPressed: () {
+                                    value.onShowBottomSheet(context, task);
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    );
+                      );
+                    }
+                    if (task.date ==
+                        DateFormat.yMd().format(value.selectedDate)) {
+                      return AnimationConfiguration.staggeredList(
+                        position: index,
+                        child: SlideAnimation(
+                          child: FadeInAnimation(
+                            child: Row(
+                              children: [
+                                TaskTile(
+                                  task: task,
+                                  onPressed: () {
+                                    value.onShowBottomSheet(context, task);
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    } else {
+                      return const SizedBox();
+                    }
                   },
                 ),
               ),
@@ -112,6 +138,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+
 
 // class HomePage extends StatefulWidget {
 //   const HomePage({Key? key}) : super(key: key);
