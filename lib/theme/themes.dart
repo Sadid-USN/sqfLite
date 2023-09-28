@@ -100,7 +100,7 @@ class Themes {
 
 
 //? DARK ColorScheme
-const Color primaryColor = Color(0XFF1F4061);
+const Color primaryColor = Color.fromARGB(255, 136, 192, 249);
 const Color secondaryColor = Color(0XFF1F4061);
 const Color errorColor = Color(0xFFD32F2F);
 const Color backgroundColor = Color(0xFF828282); // Dark background color

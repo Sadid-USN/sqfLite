@@ -9,12 +9,13 @@ import 'package:sql_db/core/notify_helper.dart';
 
 import 'package:sql_db/screen/home_page.dart';
 import 'package:sql_db/core/db_helper.dart';
-
+import 'package:timezone/data/latest.dart' as tz;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  NotificationHelper().initNotification();
+//  tz.initializeTimeZones();
   DBHelper.initDB();
+  await NotificationHelper().initNotification();
   await GetStorage.init();
   await Locales.init(
     [

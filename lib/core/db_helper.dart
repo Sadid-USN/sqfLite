@@ -41,8 +41,14 @@ class DBHelper {
   }
 
   static Future<List<Map<String, dynamic>>> query() async {
-    print("Query function called");
-    return await _db!.query(_tableName);
+    try {
+      print("Query function called");
+      final result = await _db!.query(_tableName);
+      return result;
+    } catch (error) {
+      print("Error querying the database: $error");
+      return []; // Return an empty list in case of an error
+    }
   }
 
   static Future<int> delete(Task task) async {

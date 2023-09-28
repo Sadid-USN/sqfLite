@@ -1,13 +1,10 @@
 // ignore_for_file: unnecessary_overrides
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/state_manager.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:sql_db/core/db_helper.dart';
 import 'package:sql_db/theme/themes.dart';
-
 import 'package:sql_db/widget/bottomsheet_widget.dart';
 
 import '../models/task_model.dart';
@@ -39,9 +36,9 @@ class HomePageController extends ChangeNotifier {
     } else if (titleEditingController.text.isEmpty ||
         titleEditingController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+         const SnackBar(
           content: Column(
-            children: [Text("snackbar")],
+            children: [Text("The title and note fields are required")],
           ),
         ),
       );
@@ -158,7 +155,13 @@ class HomePageController extends ChangeNotifier {
         initialTime: TimeOfDay(
           hour: int.parse(startTime.split(":")[0]),
           minute: int.parse(startTime.split(":")[1].split(" ")[0]),
-        ));
+
+
+
+        ),
+        
+       
+        );
   }
 
   void onRemaindChanged(String? newvalue) {
@@ -178,6 +181,7 @@ class HomePageController extends ChangeNotifier {
 
   void onShowBottomSheet(BuildContext context, Task task) {
     showBottomSheet(
+ 
         enableDrag: true,
         context: context,
         builder: (context) {
@@ -185,6 +189,7 @@ class HomePageController extends ChangeNotifier {
           
           
           BottomSheetWidget(
+            loadThemeFromBox: loadThemeFromBox(),
             context: context,
             task: task,
             onTaskCompletedPressed: () {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sql_db/controllers/home_page_controller.dart';
+import 'package:sql_db/core/unfocus_scope.dart';
 import 'package:sql_db/widget/color_palet.dart';
 import 'package:sql_db/widget/custom_field.dart';
 
@@ -34,8 +34,7 @@ class AddTaskPage extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
-        child: 
-        SingleChildScrollView(
+        child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -44,14 +43,14 @@ class AddTaskPage extends StatelessWidget {
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               Consumer<HomePageController>(
-                builder: (context, value, child) =>  CustomField(
+                builder: (context, value, child) => CustomField(
                   controller: value.titleEditingController,
                   title: "Title",
                   hintText: 'Enter title here',
                 ),
               ),
               Consumer<HomePageController>(
-                builder: (context, value, child) =>  CustomField(
+                builder: (context, value, child) => CustomField(
                   controller: value.noteEditingController,
                   title: "Note",
                   hintText: 'Enter note here',
@@ -71,44 +70,43 @@ class AddTaskPage extends StatelessWidget {
                   ),
                 ),
               ),
-             Consumer<HomePageController>(
-              builder: (context, value, child) => Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CustomField(
+              Consumer<HomePageController>(
+                builder: (context, value, child) => Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CustomField(
+                      width: MediaQuery.of(context).size.width / 2.3,
+                      title: "Start Time",
+                      hintText: value.startTime,
+                      widget: IconButton(
+                        onPressed: () {
+                          value.getTimeFromUser(
+                              isStartTime: true, context: context);
+                        },
+                        icon: const Icon(Icons.access_time_rounded),
+                      ),
+                    ),
+                    Consumer<HomePageController>(
+                      builder: (context, value, child) => CustomField(
                         width: MediaQuery.of(context).size.width / 2.3,
-                        title: "Start Time",
-                        hintText: value.startTime,
+                        title: "End Time",
+                        hintText: value.endTime,
                         widget: IconButton(
                           onPressed: () {
                             value.getTimeFromUser(
-                                isStartTime: true, context: context);
+                                isStartTime: false, context: context);
                           },
                           icon: const Icon(Icons.access_time_rounded),
                         ),
                       ),
-                      Consumer<HomePageController>(
-                        builder: (context, value, child) => CustomField(
-                          width: MediaQuery.of(context).size.width / 2.3,
-                          title: "End Time",
-                          hintText: value.endTime,
-                          widget: IconButton(
-                            onPressed: () {
-                              value.getTimeFromUser(
-                                  isStartTime: false, context: context);
-                            },
-                            icon: const Icon(Icons.access_time_rounded),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-             ),
-               
+                    ),
+                  ],
+                ),
+              ),
               Consumer<HomePageController>(
-                builder: (context, value, child) =>  CustomField(
+                builder: (context, value, child) => CustomField(
                   title: "Reminder",
-                  hintText: "${value.selectedRemaind} minuts early",
+                  hintText: "${value.selectedRemaind} minutes early",
                   widget: Padding(
                       padding: const EdgeInsets.only(right: 8),
                       child: DropdownButton<String>(
@@ -126,8 +124,8 @@ class AddTaskPage extends StatelessWidget {
                       )),
                 ),
               ),
-                Consumer<HomePageController>(
-                  builder: (context, value, child) =>  CustomField(
+              Consumer<HomePageController>(
+                builder: (context, value, child) => CustomField(
                   title: "Repeat",
                   hintText: value.selectedRepeat,
                   widget: Padding(
@@ -158,6 +156,6 @@ class AddTaskPage extends StatelessWidget {
           ),
         ),
       ),
-    );
+    ).unfocusScope(context);
   }
 }

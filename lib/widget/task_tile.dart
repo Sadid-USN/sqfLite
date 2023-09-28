@@ -82,9 +82,7 @@ class TaskTile extends StatelessWidget {
                 ],
               ),
             ),
-            task.isCompleted == 1
-                ? const SizedBox()
-                : Container(
+             Container(
                     margin: const EdgeInsets.symmetric(horizontal: 10),
                     height: 60,
                     width: 0.5,
@@ -103,11 +101,12 @@ class TaskTile extends StatelessWidget {
                   child: task.isCompleted == 1 ?
                   
                   AnimatedTextKit(
-                      pause: const Duration(milliseconds: 300),
+                      pause: const Duration(seconds: 2),
                       repeatForever: task.isCompleted == 1 ? true : false,
                       animatedTexts: [
-                        RotateAnimatedText("COMPLETED",
-                            duration: const Duration(seconds: 4)),
+                        TyperAnimatedText("COMPLETED",
+                        speed: const Duration(milliseconds: 100)
+                           ),
                       ]): const Text("TODO"),
                 )
 

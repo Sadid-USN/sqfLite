@@ -14,7 +14,7 @@ class BottomSheetWidget extends StatelessWidget {
   const BottomSheetWidget({super.key, 
     required this.context,
     required this.task,
-    this.loadThemeFromBox = false,
+    required this.loadThemeFromBox,
     required this.onTaskCompletedPressed,
     required this.onDeletePressed,
     required this.onClosePressed,
@@ -28,7 +28,7 @@ class BottomSheetWidget extends StatelessWidget {
       padding: const EdgeInsets.only(top: 4.0),
       height: task.isCompleted == 1 ? size.height * 0.30 : size.height * 0.32,
       width: size.width,
-      color: loadThemeFromBox ? lightPrimaryColor : Colors.blueGrey.shade500,
+      color: loadThemeFromBox ?  primaryColor: secondaryColor ,
       child: Column(
         children: [
           Container(
@@ -37,14 +37,14 @@ class BottomSheetWidget extends StatelessWidget {
             width: size.width / 3,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
-              color: loadThemeFromBox ? Colors.grey : Colors.grey.shade300,
+              color: loadThemeFromBox ? Colors.grey.shade200 : Colors.grey.shade300,
             ),
           ),
           task.isCompleted == 1 ? const SizedBox(height: 40) : const SizedBox(height: 16),
 
           BottomSheetButton(
             isTaskCompleted: task.isCompleted == 1 ? true : false,
-            color: Colors.indigoAccent,
+            color: Colors.indigo,
             title: "Task Completed",
             onPressed: onTaskCompletedPressed,
           ),

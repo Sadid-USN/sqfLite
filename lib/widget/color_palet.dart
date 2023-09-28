@@ -45,7 +45,7 @@ class ColorPalet extends StatelessWidget {
                           child: CircleAvatar(
                             radius: 14,
                             backgroundColor: index == 0
-                                ? primaryColor
+                                ? lightPrimaryColor
                                 : index == 1
                                     ? Colors.purple
                                     : Colors.orange,
@@ -75,13 +75,14 @@ class ColorPalet extends StatelessWidget {
               controller.validation(context);
 
               controller.getTasks();
+             
               await Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
                     builder: (context) => HomePage(
                           context: context,
                         )),
               );
-              // await Get.to(() => const HomePage());
+            
             },
           ),
         ),

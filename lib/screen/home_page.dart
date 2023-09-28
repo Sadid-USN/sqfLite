@@ -1,15 +1,20 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:sql_db/core/date_format.dart';
+import 'package:sql_db/core/notify_helper.dart';
+import 'package:sql_db/models/task_model.dart';
 
 import 'package:sql_db/theme/themes.dart';
 import 'package:sql_db/widget/header.dart';
 import 'package:sql_db/widget/task_tile.dart';
 import '../controllers/home_page_controller.dart';
 
-//! 1:19
+//! 1:36
 
 class HomePage extends StatefulWidget {
   final BuildContext context;
@@ -34,8 +39,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var changeIcon =
-        Provider.of<HomePageController>(context).loadThemeFromBox();
+    var provider = Provider.of<HomePageController>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -43,14 +47,29 @@ class _HomePageState extends State<HomePage> {
         leading: IconButton(
           onPressed: () {
             context.read<HomePageController>().switchTheme();
+            //NotificationHelper().scheduleNotification();
           },
-          icon: changeIcon
+          icon: provider.loadThemeFromBox()
               ? const Icon(Icons.nightlight_outlined)
               : const Icon(Icons.sunny),
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              NotificationHelper().showNotification(
+                  title: provider.taskList[0].title,
+                  body: provider.taskList[0].note,
+                  // payLoad: provider.taskList[0].note
+                  
+                  );
+              // NotificationHelper().scheduleNotification(
+              //     hour: int.parse("11:00".split(":")[0]),
+              //     minutes: int.parse(
+              //       "11:00".split(":")[1],
+              //     ),
+              //     task: provider.taskList[0]
+              // );
+            },
             icon: const Icon(
               Icons.person,
             ),
@@ -74,7 +93,9 @@ class _HomePageState extends State<HomePage> {
                 monthTextStyle: Theme.of(context).textTheme.titleSmall!,
                 dateTextStyle: Theme.of(context).textTheme.titleMedium!,
                 dayTextStyle: Theme.of(context).textTheme.titleSmall!,
-                selectionColor: primaryColor,
+                selectionColor: provider.loadThemeFromBox()
+                    ? primaryColor
+                    : lightPrimaryColor,
                 onDateChange: controller.onDateChange,
               ),
             ),
@@ -85,9 +106,20 @@ class _HomePageState extends State<HomePage> {
                   shrinkWrap: true,
                   itemCount: value.taskList.length,
                   itemBuilder: (context, index) {
-                    var task = controller.taskList[index];
+                    Task task = controller.taskList[index];
 
                     if (task.repeat == "Daily") {
+                      // DateTime date = DateFormat.jm().parse(task.startTime.toString());
+                      // var myTime  =  DateFormat("HH:mm").format(date);
+                      // int.parse(myTime.toString().split(":")[0]);
+                     // dateFormatParser(task.startTime ?? "null", 0),
+                      // print(task.startTime);
+                      NotificationHelper().scheduleNotification(
+                        hour:  dateFormatParser(task.startTime!, 0),
+                        minutes:   dateFormatParser(task.startTime!, 1),
+                        task: task,
+                      );
+
                       return AnimationConfiguration.staggeredList(
                         position: index,
                         child: SlideAnimation(
@@ -105,8 +137,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       );
-                    }
-                    if (task.date ==
+                    } else if (task.date ==
                         DateFormat.yMd().format(value.selectedDate)) {
                       return AnimationConfiguration.staggeredList(
                         position: index,
@@ -127,6 +158,25 @@ class _HomePageState extends State<HomePage> {
                       );
                     } else {
                       return const SizedBox();
+
+                      // Center(
+                      //   child: DefaultTextStyle(
+                      //     style: GoogleFonts.lato(
+                      //       textStyle: const TextStyle(
+                      //         fontSize: 20,
+                      //         fontWeight: FontWeight.bold,
+                      //         color: Colors.blueGrey,
+                      //       ),
+                      //     ),
+                      //     child: AnimatedTextKit(
+                      //         pause: const Duration(seconds: 2),
+                      //         repeatForever: true,
+                      //         animatedTexts: [
+                      //           TyperAnimatedText("You have no tasks yet",
+                      //               speed: const Duration(milliseconds: 100)),
+                      //         ]),
+                      //   ),
+                      // );
                     }
                   },
                 ),

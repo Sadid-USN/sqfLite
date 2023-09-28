@@ -8,8 +8,10 @@ part of 'task_model.dart';
 
 _$_Task _$$_TaskFromJson(Map<String, dynamic> json) => _$_Task(
       id: json['id'] as int?,
-      title: json['title'] as String?,
-      note: json['note'] as String?,
+      title:  (json['title'] is int)
+           ? json['title'].toString():(json['title'] as String),
+      note: (json['note'] is int)
+          ? json['note'].toString() : (json['note'] as String),
       isCompleted: json['isCompleted'] as int?,
       date: json['date'] as String?,
       startTime: json['startTime'] as String?,
