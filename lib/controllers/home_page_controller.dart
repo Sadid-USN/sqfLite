@@ -24,17 +24,40 @@ class HomePageController extends ChangeNotifier {
   TextEditingController titleEditingController = TextEditingController();
   TextEditingController noteEditingController = TextEditingController();
   DateTime selectedDate = DateTime.now();
+    String startTime = DateFormat('HH:mm').format(DateTime.now());
+    String endTime = DateFormat('HH:mm').format(DateTime.now());
 
-  String startTime = DateFormat('HH:mm').format(DateTime.now());
-  String endTime = DateFormat('HH:mm').format(DateTime.now());
+   void updateStartAndEndTime() {
+    String languageCode = languageBox.read("code");
+    startTime = DateFormat('HH:mm').format(DateTime.now());
+    endTime = DateFormat('HH:mm').format(DateTime.now());
+    if (languageCode.isEmpty && languageCode != "ru") {
+      startTime = DateFormat('hh:mm a').format(DateTime.now());
+      endTime = DateFormat('hh:mm a').format(DateTime.now());
+    }
+    notifyListeners();
+  }
+
+
+
+
+
+
+
+
+
   int selectedRemaind = 5;
   List<int> reminList = [5, 10, 15, 20];
   String selectedRepeat = 'None';
   List<String> repeatList(BuildContext context) {
-  return [
-    S.of(context).none, S.of(context).daily, S.of(context).weekly, S.of(context).monthly
-  ];
-}
+    return [
+      S.of(context).none,
+      S.of(context).daily,
+      S.of(context).weekly,
+      S.of(context).monthly
+    ];
+  }
+
   int selectedColor = 0;
 
   String get selectedDayToyMd {
@@ -62,7 +85,7 @@ class HomePageController extends ChangeNotifier {
     if (titleEditingController.text.isNotEmpty &&
         noteEditingController.text.isNotEmpty) {
       _addTaskTodb();
-      themeController.playAssetAudio('lib/audio/book_sound.mp3');
+      themeController.playAssetAudio('lib/audio/click.mp3');
 
       titleEditingController.clear();
       noteEditingController.clear();
@@ -97,14 +120,14 @@ class HomePageController extends ChangeNotifier {
             repeat: selectedRepeat));
   }
 
-  // final bool _isReady = false;
-  // get isReady => _isReady;
-  // void onReady() {
-  //   if (isReady == true) {
-  //     getTasks();
-  //     notifyListeners();
-  //   }
-  // }
+    String getFormattedTime(String languageCode) {
+    DateTime now = DateTime.now();
+    if (languageCode.isEmpty || languageCode == "ru") {
+      return DateFormat('HH:mm').format(now);
+    } else {
+      return DateFormat('hh:mm a').format(now);
+    }
+  }
 
   void getTasks() async {
     List<Map<String, dynamic>> tasks = await DBHelper.query();
@@ -190,13 +213,25 @@ class HomePageController extends ChangeNotifier {
     return showTimePicker(
       initialEntryMode: TimePickerEntryMode.input,
       context: context,
-      initialTime: TimeOfDay(
-        hour: int.parse(startTime.split(":")[0]),
-        minute: int.parse(startTime.split(":")[1]),
-      ),
+      initialTime:
+          languageBox.read("code") == null && languageBox.read("code") == "ru"
+              ? TimeOfDay(
+                  hour: int.parse(startTime.split(":")[0]),
+                  minute: int.parse(startTime.split(":")[1]),
+                )
+              : TimeOfDay(
+                  hour: int.parse(startTime.split(":")[0]),
+                  minute: int.parse(startTime.split(":")[1].split(" ")[0]),
+                ),
+
+      // .split(" ")[0]
       builder: (context, child) {
         return MediaQuery(
-            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+            data: MediaQuery.of(context).copyWith(
+                alwaysUse24HourFormat: languageBox.read("code") == null &&
+                        languageBox.read("code") == "ru"
+                    ? true
+                    : false),
             child: child!);
       },
     );

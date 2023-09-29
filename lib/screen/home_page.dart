@@ -59,10 +59,13 @@ class _HomePageState extends State<HomePage> {
             child: IconButton(
               onPressed: () {
                 homeController.themeController
-                .playAssetAudio('lib/audio/book_sound.mp3');
+                    .playAssetAudio('lib/audio/click.mp3');
                 Navigator.pushNamed(context, LangugesPage.LANGPAGE);
               },
-              icon:  Image.asset("assets/images/lang.png", height: 25,),
+              icon: Image.asset(
+                "assets/images/lang.png",
+                height: 25,
+              ),
             ),
           ),
         ],
@@ -80,7 +83,10 @@ class _HomePageState extends State<HomePage> {
               width: MediaQuery.sizeOf(context).width,
               child: DatePicker(
                 DateTime.now(),
-                locale: "ru",
+                locale: languageBox.read("code") == null &&
+                        languageBox.read("code") == "ru"
+                    ? "ru"
+                    : "en",
                 initialSelectedDate: DateTime.now(),
                 monthTextStyle: Theme.of(context).textTheme.titleSmall!,
                 dateTextStyle: Theme.of(context).textTheme.titleMedium!,
