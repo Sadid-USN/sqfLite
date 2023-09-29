@@ -134,15 +134,16 @@ class AddTaskPage extends StatelessWidget {
               ),
               Consumer<HomePageController>(
                 builder: (context, value, child) => CustomField(
-                  title: S.of(context).repeat,
-                  hintText: S.of(context).none,
+                  title: 'Повторить',
+                  hintText: value.selectedRepeat,
                   widget: Padding(
                     padding: const EdgeInsets.only(right: 8),
                     child: DropdownButton<String>(
+                      
                       underline: const SizedBox(),
                       icon: const Icon(Icons.keyboard_arrow_down),
                       elevation: 4,
-                      items: value.repeatList(context)
+                      items: value.repeatList
                           .map<DropdownMenuItem<String>>((String repeat) {
                         return DropdownMenuItem<String>(
                           value: repeat,
@@ -159,7 +160,9 @@ class AddTaskPage extends StatelessWidget {
               const SizedBox(
                 height: 12,
               ),
-              const ColorPalet()
+              const ColorPalet(),
+
+              const SizedBox(height: 16,),
             ],
           ),
         ),

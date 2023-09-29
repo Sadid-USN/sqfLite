@@ -24,39 +24,33 @@ class HomePageController extends ChangeNotifier {
   TextEditingController titleEditingController = TextEditingController();
   TextEditingController noteEditingController = TextEditingController();
   DateTime selectedDate = DateTime.now();
-    String startTime = DateFormat('HH:mm').format(DateTime.now());
-    String endTime = DateFormat('HH:mm').format(DateTime.now());
+  String startTime = DateFormat('HH:mm').format(DateTime.now());
+  String endTime = DateFormat('HH:mm').format(DateTime.now());
 
-   void updateStartAndEndTime() {
-    String languageCode = languageBox.read("code");
-    startTime = DateFormat('HH:mm').format(DateTime.now());
-    endTime = DateFormat('HH:mm').format(DateTime.now());
-    if (languageCode.isEmpty && languageCode != "ru") {
-      startTime = DateFormat('hh:mm a').format(DateTime.now());
-      endTime = DateFormat('hh:mm a').format(DateTime.now());
-    }
-    notifyListeners();
-  }
+  // String getFormattedTime() {
+  //   DateTime now = DateTime.now();
 
+  //   if (languageBox.read("code") == null || languageBox.read("code") == "ru") {
+  //     notifyListeners();
+  //     startTime = DateFormat('HH:mm').format(now);
 
-
-
-
-
-
-
+  //     return startTime;
+  //   } else {
+  //     startTime = DateFormat('hh:mm a').format(now);
+  //     notifyListeners();
+  //     return startTime;
+  //   }
+  // }
 
   int selectedRemaind = 5;
   List<int> reminList = [5, 10, 15, 20];
-  String selectedRepeat = 'None';
-  List<String> repeatList(BuildContext context) {
-    return [
-      S.of(context).none,
-      S.of(context).daily,
-      S.of(context).weekly,
-      S.of(context).monthly
-    ];
-  }
+  String selectedRepeat = 'Никогда';
+  List<String> repeatList = [
+    "Никогда",
+    "Ежедневно",
+    "Еженедельно",
+    "Ежемесячно",
+  ];
 
   int selectedColor = 0;
 
@@ -93,9 +87,13 @@ class HomePageController extends ChangeNotifier {
         titleEditingController.text.isEmpty) {
       themeController.playAssetAudio('lib/audio/empty_filed.mp3');
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+        SnackBar(
           content: Column(
-            children: [Text("The title and note fields are required")],
+            children: [
+              Text(
+                S.of(context).youLeftTheFieldsEmpty,
+              )
+            ],
           ),
         ),
       );
@@ -118,15 +116,6 @@ class HomePageController extends ChangeNotifier {
             color: selectedColor,
             remind: selectedRemaind,
             repeat: selectedRepeat));
-  }
-
-    String getFormattedTime(String languageCode) {
-    DateTime now = DateTime.now();
-    if (languageCode.isEmpty || languageCode == "ru") {
-      return DateFormat('HH:mm').format(now);
-    } else {
-      return DateFormat('hh:mm a').format(now);
-    }
   }
 
   void getTasks() async {
@@ -213,25 +202,20 @@ class HomePageController extends ChangeNotifier {
     return showTimePicker(
       initialEntryMode: TimePickerEntryMode.input,
       context: context,
-      initialTime:
-          languageBox.read("code") == null && languageBox.read("code") == "ru"
-              ? TimeOfDay(
+      initialTime: TimeOfDay(
                   hour: int.parse(startTime.split(":")[0]),
                   minute: int.parse(startTime.split(":")[1]),
-                )
-              : TimeOfDay(
-                  hour: int.parse(startTime.split(":")[0]),
-                  minute: int.parse(startTime.split(":")[1].split(" ")[0]),
                 ),
+              // : TimeOfDay(
+              //     hour: int.parse(startTime.split(":")[0]),
+              //     minute: int.parse(startTime.split(":")[1].split(" ")[0]),
+              //   ),
 
       // .split(" ")[0]
       builder: (context, child) {
         return MediaQuery(
             data: MediaQuery.of(context).copyWith(
-                alwaysUse24HourFormat: languageBox.read("code") == null &&
-                        languageBox.read("code") == "ru"
-                    ? true
-                    : false),
+                alwaysUse24HourFormat: true),
             child: child!);
       },
     );

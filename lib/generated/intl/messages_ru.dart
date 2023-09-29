@@ -47,6 +47,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "startTime": MessageLookupByLibrary.simpleMessage("Начало"),
         "title": MessageLookupByLibrary.simpleMessage("Название"),
         "today": MessageLookupByLibrary.simpleMessage("Сегодня"),
-        "weekly": MessageLookupByLibrary.simpleMessage("Еженедельно")
+        "weekly": MessageLookupByLibrary.simpleMessage("Еженедельно"),
+        "youLeftTheFieldsEmpty": MessageLookupByLibrary.simpleMessage(
+            "Вы не заполнили поле Название и поле Задача.")
       };
 }

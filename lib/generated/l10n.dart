@@ -249,6 +249,16 @@ class S {
       args: [],
     );
   }
+
+  /// `You left the 'Title' and 'Note' fields empty.`
+  String get youLeftTheFieldsEmpty {
+    return Intl.message(
+      'You left the \'Title\' and \'Note\' fields empty.',
+      name: 'youLeftTheFieldsEmpty',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -53,21 +53,21 @@ class _HomePageState extends State<HomePage> {
               ? const Icon(Icons.nightlight_outlined)
               : const Icon(Icons.sunny),
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 3),
-            child: IconButton(
-              onPressed: () {
-                homeController.themeController
-                    .playAssetAudio('lib/audio/click.mp3');
-                Navigator.pushNamed(context, LangugesPage.LANGPAGE);
-              },
-              icon: Image.asset(
-                "assets/images/lang.png",
-                height: 25,
-              ),
-            ),
-          ),
+        actions: const [
+          // Padding(
+          //   padding: const EdgeInsets.only(right: 3),
+          //   child: IconButton(
+          //     onPressed: () {
+          //       homeController.themeController
+          //           .playAssetAudio('lib/audio/click.mp3');
+          //       Navigator.pushNamed(context, LangugesPage.LANGPAGE);
+          //     },
+          //     icon: Image.asset(
+          //       "assets/images/lang.png",
+          //       height: 25,
+          //     ),
+          //   ),
+          // ),
         ],
         centerTitle: true,
       ),
@@ -83,10 +83,8 @@ class _HomePageState extends State<HomePage> {
               width: MediaQuery.sizeOf(context).width,
               child: DatePicker(
                 DateTime.now(),
-                locale: languageBox.read("code") == null &&
-                        languageBox.read("code") == "ru"
-                    ? "ru"
-                    : "en",
+                locale:  "ru",
+                 
                 initialSelectedDate: DateTime.now(),
                 monthTextStyle: Theme.of(context).textTheme.titleSmall!,
                 dateTextStyle: Theme.of(context).textTheme.titleMedium!,
@@ -109,16 +107,15 @@ class _HomePageState extends State<HomePage> {
                   itemBuilder: (context, index) {
                     Task task = controller.taskList[index];
 
-                    if (task.repeat == "Daily") {
-                      print("2222");
+                    if (task.repeat == "Ежедневно") {
                       // DateTime date = DateFormat.jm().parse(task.startTime.toString());
                       // var myTime  =  DateFormat("HH:mm").format(date);
                       // int.parse(myTime.toString().split(":")[0]);
                       // dateFormatParser(task.startTime ?? "null", 0),
 
                       NotificationHelper().scheduleNotification(
-                        hour: dateFormatParser(task.startTime!, 0),
-                        minutes: dateFormatParser(task.startTime!, 1),
+                        hour: dateFormatParser(task.startTime!, 0, ),
+                        minutes: dateFormatParser(task.startTime!, 1,),
                         task: task,
                       );
 

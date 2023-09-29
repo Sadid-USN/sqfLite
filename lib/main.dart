@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: S.delegate.supportedLocales,
-      locale: getLocaleCode(),
+      locale: const Locale("ru", "RU"),
       debugShowCheckedModeBanner: false,
       title: 'Todo app',
       theme: controller.themeData,

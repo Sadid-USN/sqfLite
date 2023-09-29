@@ -45,6 +45,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "startTime": MessageLookupByLibrary.simpleMessage("Start Time"),
         "title": MessageLookupByLibrary.simpleMessage("Title"),
         "today": MessageLookupByLibrary.simpleMessage("Today"),
-        "weekly": MessageLookupByLibrary.simpleMessage("Weekly")
+        "weekly": MessageLookupByLibrary.simpleMessage("Weekly"),
+        "youLeftTheFieldsEmpty": MessageLookupByLibrary.simpleMessage(
+            "You left the \'Title\' and \'Note\' fields empty.")
       };
 }

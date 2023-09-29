@@ -18,5 +18,6 @@
   "monthly": "Monthly",
   "repeat": "Repeat",
   "color": "Color",
-  "createTask": "Create Task"
+  "createTask": "Create Task",
+  "youLeftTheFieldsEmpty": "You left the 'Title' and 'Note' fields empty."
 }
