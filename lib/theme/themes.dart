@@ -57,6 +57,11 @@ class Themes {
         fontWeight: FontWeight.bold,
         fontSize: 16,
       ),
+      labelMedium:   GoogleFonts.lato(
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
+        fontSize: 16,
+      ),
     ),
   );
 
@@ -87,6 +92,7 @@ class Themes {
         fontWeight: FontWeight.bold,
         fontSize: 16,
       ),
+      
     ),
     colorScheme: darkColorScheme,
     

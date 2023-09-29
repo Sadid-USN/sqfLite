@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_locales/flutter_locales.dart';
 
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:sql_db/controllers/home_page_controller.dart';
+import 'package:sql_db/controllers/theme_controller.dart';
 import 'package:sql_db/core/notify_helper.dart';
+import 'package:sql_db/generated/l10n.dart';
+import 'package:sql_db/languge_box.dart';
+import 'package:sql_db/routes/routes.dart';
 
 import 'package:sql_db/screen/home_page.dart';
 import 'package:sql_db/core/db_helper.dart';
-import 'package:timezone/data/latest.dart' as tz;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,17 +20,14 @@ Future<void> main() async {
   DBHelper.initDB();
   await NotificationHelper().initNotification();
   await GetStorage.init();
-  await Locales.init(
-    [
-      'en',
-      'ru',
-      'uk',
-    ],
-  );
 
-  runApp(ChangeNotifierProvider(
-    create: (context) => HomePageController(),
-    child: const MyApp()));
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => HomePageController()),
+      ChangeNotifierProvider(create: (context) => ThemeController()),
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -35,19 +35,35 @@ class MyApp extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
+  Locale getLocaleCode() {
+    final storedCode = languageBox.read('code');
+    if (storedCode != null) {
+      return Locale(storedCode);
+    } else {
+      return WidgetsBinding.instance.platformDispatcher.locale;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var controller = Provider.of<HomePageController>(context);
-    return LocaleBuilder(
-        builder: (locale) => MaterialApp(
-              localizationsDelegates: Locales.delegates,
-              supportedLocales: Locales.supportedLocales,
-              locale: locale,
-              debugShowCheckedModeBanner: false,
-              title: 'Todo app',
-              theme: controller.themeData,
-              themeMode: controller.themeMode,
-              home:  HomePage(context: context,),
-            ));
+    return MaterialApp(
+      routes: routes,
+      localizationsDelegates: const [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: S.delegate.supportedLocales,
+      locale: getLocaleCode(),
+      debugShowCheckedModeBanner: false,
+      title: 'Todo app',
+      theme: controller.themeData,
+      themeMode: controller.themeMode,
+      home: HomePage(
+        context: context,
+      ),
+    );
   }
 }

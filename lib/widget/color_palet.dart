@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 import 'package:sql_db/controllers/home_page_controller.dart';
+import 'package:sql_db/controllers/theme_controller.dart';
+import 'package:sql_db/generated/l10n.dart';
+import 'package:sql_db/main.dart';
 
 import 'package:sql_db/screen/home_page.dart';
 import 'package:sql_db/theme/themes.dart';
@@ -20,7 +23,7 @@ class ColorPalet extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Color",
+              S.of(context).color,
               style: textTheme.titleSmall!
                   .copyWith(fontSize: 16, fontWeight: FontWeight.w600),
             ),
@@ -70,19 +73,15 @@ class ColorPalet extends StatelessWidget {
           padding: const EdgeInsets.only(top: 16),
           child: AddTaskButton(
             showIcon: false,
-            title: "Create Task",
+            title: S.of(context).createTask,
             onPressed: () async {
+             
               controller.validation(context);
 
               controller.getTasks();
-             
-              await Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                    builder: (context) => HomePage(
-                          context: context,
-                        )),
-              );
-            
+
+              await  Navigator.of(context)
+                  .pushNamedAndRemoveUntil('/', (route) => false);
             },
           ),
         ),

@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sql_db/controllers/home_page_controller.dart';
+import 'package:sql_db/controllers/theme_controller.dart';
 import 'package:sql_db/core/unfocus_scope.dart';
+import 'package:sql_db/generated/l10n.dart';
 import 'package:sql_db/widget/color_palet.dart';
 import 'package:sql_db/widget/custom_field.dart';
 
 class AddTaskPage extends StatelessWidget {
+  static const ADDPAGE = '/addtaskpage';
   const AddTaskPage({Key? key}) : super(key: key);
 
   @override
@@ -18,11 +21,15 @@ class AddTaskPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: const Icon(Icons.arrow_back_ios),
+        leading: Consumer<ThemeController>(
+          builder: (context, value, child) => IconButton(
+            onPressed: () {
+              value.playAssetAudio("lib/audio/iron_sound.mp3");
+              Navigator.of(context)
+                  .pushNamedAndRemoveUntil('/', (route) => false);
+            },
+            icon: const Icon(Icons.arrow_back_ios),
+          ),
         ),
         actions: [
           IconButton(
@@ -39,26 +46,27 @@ class AddTaskPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Add Task",
+                S.of(context).addNewTask,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               Consumer<HomePageController>(
                 builder: (context, value, child) => CustomField(
                   controller: value.titleEditingController,
-                  title: "Title",
-                  hintText: 'Enter title here',
+                  title: S.of(context).title,
+                  hintText: S.of(context).enterTitleHere,
                 ),
               ),
               Consumer<HomePageController>(
                 builder: (context, value, child) => CustomField(
+                  isNote: true,
                   controller: value.noteEditingController,
-                  title: "Note",
-                  hintText: 'Enter note here',
+                  title: S.of(context).note,
+                  hintText: S.of(context).enterNoteHere,
                 ),
               ),
               Consumer<HomePageController>(
                 builder: (context, value, child) => CustomField(
-                  title: "Date",
+                  title: S.of(context).date,
                   hintText: dateFormat,
                   widget: IconButton(
                     onPressed: () {
@@ -76,7 +84,7 @@ class AddTaskPage extends StatelessWidget {
                   children: [
                     CustomField(
                       width: MediaQuery.of(context).size.width / 2.3,
-                      title: "Start Time",
+                      title: S.of(context).startTime,
                       hintText: value.startTime,
                       widget: IconButton(
                         onPressed: () {
@@ -89,7 +97,7 @@ class AddTaskPage extends StatelessWidget {
                     Consumer<HomePageController>(
                       builder: (context, value, child) => CustomField(
                         width: MediaQuery.of(context).size.width / 2.3,
-                        title: "End Time",
+                        title: S.of(context).endTime,
                         hintText: value.endTime,
                         widget: IconButton(
                           onPressed: () {
@@ -105,8 +113,8 @@ class AddTaskPage extends StatelessWidget {
               ),
               Consumer<HomePageController>(
                 builder: (context, value, child) => CustomField(
-                  title: "Reminder",
-                  hintText: "${value.selectedRemaind} minutes early",
+                  title: S.of(context).reminder,
+                  hintText:  S.of(context).selectedremaindMinutesEarly(value.selectedRemaind),
                   widget: Padding(
                       padding: const EdgeInsets.only(right: 8),
                       child: DropdownButton<String>(
@@ -126,15 +134,15 @@ class AddTaskPage extends StatelessWidget {
               ),
               Consumer<HomePageController>(
                 builder: (context, value, child) => CustomField(
-                  title: "Repeat",
-                  hintText: value.selectedRepeat,
+                  title: S.of(context).repeat,
+                  hintText: S.of(context).none,
                   widget: Padding(
                     padding: const EdgeInsets.only(right: 8),
                     child: DropdownButton<String>(
                       underline: const SizedBox(),
                       icon: const Icon(Icons.keyboard_arrow_down),
                       elevation: 4,
-                      items: value.repeatList
+                      items: value.repeatList(context)
                           .map<DropdownMenuItem<String>>((String repeat) {
                         return DropdownMenuItem<String>(
                           value: repeat,

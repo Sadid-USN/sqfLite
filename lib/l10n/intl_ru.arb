@@ -1,0 +1,22 @@
+{
+  "language": "Языки",
+  "today": "Сегодня",
+  "addTask": "Задача",
+  "addNewTask": "Добавить новую задачу",
+  "title": "Название",
+  "enterTitleHere": "Введите название здесь",
+  "note": "Заметка",
+  "enterNoteHere": "Введите заметку здесь",
+  "date": "Дата",
+  "startTime": "Начало",
+  "endTime": "Конец",
+  "reminder": "Напоминание",
+  "selectedremaindMinutesEarly": "{selectedRemaind} минут до уведомления",
+  "none": "Никогда",
+  "daily": "Ежедневно",
+  "weekly": "Еженедельно",
+  "monthly": "Ежемесячно",
+  "repeat": "Повторить",
+  "color": "Цвет",
+  "createTask": "Создать задачу"
+}

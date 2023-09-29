@@ -1,9 +1,13 @@
 // ignore_for_file: unnecessary_overrides
 
 import 'package:flutter/material.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
+import 'package:sql_db/controllers/theme_controller.dart';
 import 'package:sql_db/core/db_helper.dart';
+import 'package:sql_db/generated/l10n.dart';
+import 'package:sql_db/languge_box.dart';
 import 'package:sql_db/theme/themes.dart';
 import 'package:sql_db/widget/bottomsheet_widget.dart';
 
@@ -15,28 +19,58 @@ class HomePageController extends ChangeNotifier {
 
   List<Task> taskList = [];
 
+  ThemeController themeController = ThemeController();
+
   TextEditingController titleEditingController = TextEditingController();
   TextEditingController noteEditingController = TextEditingController();
   DateTime selectedDate = DateTime.now();
-  String startTime = DateFormat('hh:mm a').format(DateTime.now());
-  String endTime = DateFormat('hh:mm a').format(DateTime.now());
+
+  String startTime = DateFormat('HH:mm').format(DateTime.now());
+  String endTime = DateFormat('HH:mm').format(DateTime.now());
   int selectedRemaind = 5;
   List<int> reminList = [5, 10, 15, 20];
   String selectedRepeat = 'None';
-  List<String> repeatList = ["None", "Daily", "Weekly", "Monthly"];
+  List<String> repeatList(BuildContext context) {
+  return [
+    S.of(context).none, S.of(context).daily, S.of(context).weekly, S.of(context).monthly
+  ];
+}
   int selectedColor = 0;
+
+  String get selectedDayToyMd {
+    return DateFormat.yMd().format(selectedDate);
+  }
+
+  void onLanguageChanged(String lang) {
+    languageBox.write('code', lang);
+    notifyListeners();
+  }
+
+  // void _changlang() {
+  //   if (languageBox.read("code") == "ru") {
+  //     startTime = DateFormat('HH:mm').format(DateTime.now());
+  //     endTime = DateFormat('HH:mm').format(DateTime.now());
+  //     notifyListeners();
+  //   } else {
+  //     startTime = DateFormat('hh:mm a').format(DateTime.now());
+  //     endTime = DateFormat('hh:mm a').format(DateTime.now());
+  //     notifyListeners();
+  //   }
+  // }
 
   void validation(BuildContext context) {
     if (titleEditingController.text.isNotEmpty &&
         noteEditingController.text.isNotEmpty) {
       _addTaskTodb();
+      themeController.playAssetAudio('lib/audio/book_sound.mp3');
 
       titleEditingController.clear();
       noteEditingController.clear();
     } else if (titleEditingController.text.isEmpty ||
         titleEditingController.text.isEmpty) {
+      themeController.playAssetAudio('lib/audio/empty_filed.mp3');
       ScaffoldMessenger.of(context).showSnackBar(
-         const SnackBar(
+        const SnackBar(
           content: Column(
             children: [Text("The title and note fields are required")],
           ),
@@ -50,12 +84,12 @@ class HomePageController extends ChangeNotifier {
   }
 
   _addTaskTodb() async {
-    int value = await addTask(
+    await addTask(
         task: Task(
             title: titleEditingController.text,
             note: noteEditingController.text,
             isCompleted: 0,
-            date: DateFormat.yMd().format(selectedDate),
+            date: selectedDayToyMd,
             startTime: startTime,
             endTime: endTime,
             color: selectedColor,
@@ -63,14 +97,14 @@ class HomePageController extends ChangeNotifier {
             repeat: selectedRepeat));
   }
 
-  final bool _isReady = false;
-  get isReady => _isReady;
-  void onReady() {
-    if (isReady == true) {
-      getTasks();
-      notifyListeners();
-    }
-  }
+  // final bool _isReady = false;
+  // get isReady => _isReady;
+  // void onReady() {
+  //   if (isReady == true) {
+  //     getTasks();
+  //     notifyListeners();
+  //   }
+  // }
 
   void getTasks() async {
     List<Map<String, dynamic>> tasks = await DBHelper.query();
@@ -87,6 +121,7 @@ class HomePageController extends ChangeNotifier {
 
   void markTaskComleted(int id) async {
     await DBHelper.update(id);
+    themeController.playAssetAudio("lib/audio/complete.mp3");
     getTasks();
     notifyListeners();
   }
@@ -112,6 +147,7 @@ class HomePageController extends ChangeNotifier {
 
   void onDateChange(DateTime date) {
     selectedDate = date;
+    themeController.playAssetAudio("lib/audio/calendar_tap.mp3");
     notifyListeners();
   }
 
@@ -135,33 +171,35 @@ class HomePageController extends ChangeNotifier {
       {required bool isStartTime, required BuildContext context}) async {
     var pickedTime = await _showTimePicker(context);
 
-    String formatTime = pickedTime.format(context);
-    if (pickedTime == null) {
-      print('Time canceled');
-    } else if (isStartTime == true) {
-      startTime = formatTime;
-      notifyListeners();
-    } else if (isStartTime == false) {
-      endTime = formatTime;
+    if (context.mounted) {
+      String formatTime = pickedTime.format(context);
+      if (pickedTime == null) {
+        print('Time canceled');
+      } else if (isStartTime == true) {
+        startTime = formatTime;
+        notifyListeners();
+      } else if (isStartTime == false) {
+        endTime = formatTime;
+        notifyListeners();
+      }
       notifyListeners();
     }
-    notifyListeners();
   }
 
   _showTimePicker(BuildContext context) {
     return showTimePicker(
-        initialEntryMode: TimePickerEntryMode.input,
-        context: context,
-        initialTime: TimeOfDay(
-          hour: int.parse(startTime.split(":")[0]),
-          minute: int.parse(startTime.split(":")[1].split(" ")[0]),
-
-
-
-        ),
-        
-       
-        );
+      initialEntryMode: TimePickerEntryMode.input,
+      context: context,
+      initialTime: TimeOfDay(
+        hour: int.parse(startTime.split(":")[0]),
+        minute: int.parse(startTime.split(":")[1]),
+      ),
+      builder: (context, child) {
+        return MediaQuery(
+            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+            child: child!);
+      },
+    );
   }
 
   void onRemaindChanged(String? newvalue) {
@@ -180,15 +218,12 @@ class HomePageController extends ChangeNotifier {
   }
 
   void onShowBottomSheet(BuildContext context, Task task) {
+    themeController.playAssetAudio('lib/audio/open.mp3');
     showBottomSheet(
- 
         enableDrag: true,
         context: context,
         builder: (context) {
-          return 
-          
-          
-          BottomSheetWidget(
+          return BottomSheetWidget(
             loadThemeFromBox: loadThemeFromBox(),
             context: context,
             task: task,
@@ -198,9 +233,11 @@ class HomePageController extends ChangeNotifier {
             },
             onDeletePressed: () {
               delete(task);
+              themeController.playAssetAudio("lib/audio/delete_task.mp3");
               Navigator.of(context).pop();
             },
             onClosePressed: () {
+              themeController.playAssetAudio('lib/audio/open.mp3');
               Navigator.of(context).pop();
             },
           );
@@ -208,6 +245,4 @@ class HomePageController extends ChangeNotifier {
 
     notifyListeners();
   }
-
-
 }

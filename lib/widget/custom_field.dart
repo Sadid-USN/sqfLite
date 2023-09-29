@@ -6,13 +6,14 @@ class CustomField extends StatelessWidget {
   final double? width;
   final TextEditingController? controller;
   final Widget? widget;
+  final bool isNote;
 
 
   const CustomField({
     super.key,
     required this.title,
     required this.hintText,
-
+    this.isNote=false,
     this.controller,
     this.widget,
     this.width,

@@ -1,13 +1,14 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sql_db/core/date_format.dart';
 import 'package:sql_db/core/notify_helper.dart';
+import 'package:sql_db/languge_box.dart';
 import 'package:sql_db/models/task_model.dart';
+import 'package:sql_db/screen/langugage_page.dart';
 
 import 'package:sql_db/theme/themes.dart';
 import 'package:sql_db/widget/header.dart';
@@ -17,6 +18,7 @@ import '../controllers/home_page_controller.dart';
 //! 1:36
 
 class HomePage extends StatefulWidget {
+  static const HOME = '/home';
   final BuildContext context;
   const HomePage({
     super.key,
@@ -32,46 +34,35 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
-    setState(() {
-      context.read<HomePageController>().getTasks();
-    });
+    context.read<HomePageController>().getTasks();
   }
 
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<HomePageController>(context);
-
+    var homeController = Provider.of<HomePageController>(context, listen: true);
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
         leading: IconButton(
           onPressed: () {
-            context.read<HomePageController>().switchTheme();
-            //NotificationHelper().scheduleNotification();
+            homeController.switchTheme();
+            homeController.themeController
+                .playAssetAudio('lib/audio/iron_sound.mp3');
           },
-          icon: provider.loadThemeFromBox()
+          icon: homeController.loadThemeFromBox()
               ? const Icon(Icons.nightlight_outlined)
               : const Icon(Icons.sunny),
         ),
         actions: [
-          IconButton(
-            onPressed: () {
-              NotificationHelper().showNotification(
-                  title: provider.taskList[0].title,
-                  body: provider.taskList[0].note,
-                  // payLoad: provider.taskList[0].note
-                  
-                  );
-              // NotificationHelper().scheduleNotification(
-              //     hour: int.parse("11:00".split(":")[0]),
-              //     minutes: int.parse(
-              //       "11:00".split(":")[1],
-              //     ),
-              //     task: provider.taskList[0]
-              // );
-            },
-            icon: const Icon(
-              Icons.person,
+          Padding(
+            padding: const EdgeInsets.only(right: 3),
+            child: IconButton(
+              onPressed: () {
+                homeController.themeController
+                .playAssetAudio('lib/audio/book_sound.mp3');
+                Navigator.pushNamed(context, LangugesPage.LANGPAGE);
+              },
+              icon:  Image.asset("assets/images/lang.png", height: 25,),
             ),
           ),
         ],
@@ -89,11 +80,12 @@ class _HomePageState extends State<HomePage> {
               width: MediaQuery.sizeOf(context).width,
               child: DatePicker(
                 DateTime.now(),
+                locale: "ru",
                 initialSelectedDate: DateTime.now(),
                 monthTextStyle: Theme.of(context).textTheme.titleSmall!,
                 dateTextStyle: Theme.of(context).textTheme.titleMedium!,
                 dayTextStyle: Theme.of(context).textTheme.titleSmall!,
-                selectionColor: provider.loadThemeFromBox()
+                selectionColor: homeController.loadThemeFromBox()
                     ? primaryColor
                     : lightPrimaryColor,
                 onDateChange: controller.onDateChange,
@@ -102,21 +94,25 @@ class _HomePageState extends State<HomePage> {
 
             Expanded(
               child: Consumer<HomePageController>(
-                builder: (context, value, child) => ListView.builder(
+                builder: (context, value, child) => ListView.separated(
+                  separatorBuilder: (context, index) => const SizedBox(
+                    height: 2,
+                  ),
                   shrinkWrap: true,
                   itemCount: value.taskList.length,
                   itemBuilder: (context, index) {
                     Task task = controller.taskList[index];
 
                     if (task.repeat == "Daily") {
+                      print("2222");
                       // DateTime date = DateFormat.jm().parse(task.startTime.toString());
                       // var myTime  =  DateFormat("HH:mm").format(date);
                       // int.parse(myTime.toString().split(":")[0]);
-                     // dateFormatParser(task.startTime ?? "null", 0),
-                      // print(task.startTime);
+                      // dateFormatParser(task.startTime ?? "null", 0),
+
                       NotificationHelper().scheduleNotification(
-                        hour:  dateFormatParser(task.startTime!, 0),
-                        minutes:   dateFormatParser(task.startTime!, 1),
+                        hour: dateFormatParser(task.startTime!, 0),
+                        minutes: dateFormatParser(task.startTime!, 1),
                         task: task,
                       );
 

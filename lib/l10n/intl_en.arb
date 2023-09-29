@@ -1,0 +1,22 @@
+{
+  "language": "Languages",
+  "today": "Today",
+  "addTask": "Add Task",
+  "addNewTask": "Add a new task",
+  "title": "Title",
+  "enterTitleHere": "Enter title here",
+  "note": "Note",
+  "enterNoteHere": "Enter note here",
+  "date": "Date",
+  "startTime": "Start Time",
+  "endTime": "End Time",
+  "reminder": "Reminder",
+  "selectedremaindMinutesEarly": "{selectedRemaind} minutes early",
+  "none": "None",
+  "daily": "Daily",
+  "weekly": "Weekly",
+  "monthly": "Monthly",
+  "repeat": "Repeat",
+  "color": "Color",
+  "createTask": "Create Task"
+}
