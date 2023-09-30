@@ -82,12 +82,12 @@ class TaskTile extends StatelessWidget {
                 ],
               ),
             ),
-             Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 10),
-                    height: 60,
-                    width: 0.5,
-                    color: Colors.grey[200]!.withOpacity(0.7),
-                  ),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 10),
+              height: MediaQuery.sizeOf(context).height / 11,
+              width: 0.5,
+              color: Colors.grey[200]!.withOpacity(0.7),
+            ),
             RotatedBox(
                 quarterTurns: 3,
                 child: DefaultTextStyle(
@@ -98,16 +98,16 @@ class TaskTile extends StatelessWidget {
                       color: Colors.white,
                     ),
                   ),
-                  child: task.isCompleted == 1 ?
-                  
-                  AnimatedTextKit(
-                      pause: const Duration(seconds: 2),
-                      repeatForever: task.isCompleted == 1 ? true : false,
-                      animatedTexts: [
-                        TyperAnimatedText("COMPLETED",
-                        speed: const Duration(milliseconds: 100)
-                           ),
-                      ]): const Text("TODO"),
+                  child: task.isCompleted == 1
+                      ? AnimatedTextKit(
+                          pause: const Duration(seconds: 2),
+                          totalRepeatCount: 5,
+                          // repeatForever: task.isCompleted == 1 ? true : false,
+                          animatedTexts: [
+                              TyperAnimatedText("ЗАВЕРШЕНО",
+                                  speed: const Duration(milliseconds: 100)),
+                            ])
+                      : const Text("ВЫПОЛНИТЬ"),
                 )
 
                 // Text(
