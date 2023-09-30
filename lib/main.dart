@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:get_storage/get_storage.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:sql_db/controllers/home_page_controller.dart';
 import 'package:sql_db/controllers/theme_controller.dart';
@@ -16,7 +17,7 @@ import 'package:sql_db/core/db_helper.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-//  tz.initializeTimeZones();
+  await MobileAds.instance.initialize();
   DBHelper.initDB();
   await NotificationHelper().initNotification();
   await GetStorage.init();

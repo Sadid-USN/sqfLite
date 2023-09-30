@@ -29,39 +29,41 @@ class BottomSheetWidget extends StatelessWidget {
       height: task.isCompleted == 1 ? size.height * 0.30 : size.height * 0.32,
       width: size.width,
       color: loadThemeFromBox ?  primaryColor: secondaryColor ,
-      child: Column(
-        children: [
-          Container(
-            margin: const EdgeInsets.only(bottom: 16),
-            height: 4.0,
-            width: size.width / 3,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
-              color: loadThemeFromBox ? Colors.grey.shade200 : Colors.grey.shade300,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              margin: const EdgeInsets.only(bottom: 16),
+              height: 4.0,
+              width: size.width / 3,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: loadThemeFromBox ? Colors.grey.shade200 : Colors.grey.shade300,
+              ),
             ),
-          ),
-          task.isCompleted == 1 ? const SizedBox(height: 40) : const SizedBox(height: 16),
-
-          BottomSheetButton(
-            isTaskCompleted: task.isCompleted == 1 ? true : false,
-            color: Colors.indigo,
-            title: "Task Completed",
-            onPressed: onTaskCompletedPressed,
-          ),
-          BottomSheetButton(
-            color: Colors.red,
-            title: "Delete Task",
-            onPressed: onDeletePressed,
-          ),
-          const SizedBox(height: 10),
-          BottomSheetButton(
-            borderColor: Colors.white,
-            color: Colors.blueGrey.shade400,
-            title: "Close",
-            onPressed: onClosePressed,
-          ),
-          
-        ],
+            task.isCompleted == 1 ? const SizedBox(height: 40) : const SizedBox(height: 16),
+      
+            BottomSheetButton(
+              isTaskCompleted: task.isCompleted == 1 ? true : false,
+              color: Colors.indigo,
+              title: "Завершите задачу",
+              onPressed: onTaskCompletedPressed,
+            ),
+            BottomSheetButton(
+              color: Colors.red,
+              title: "Удалить задачу",
+              onPressed: onDeletePressed,
+            ),
+            const SizedBox(height: 10),
+            BottomSheetButton(
+              borderColor: Colors.white,
+              color: Colors.blueGrey.shade400,
+              title: "Закрыть",
+              onPressed: onClosePressed,
+            ),
+            
+          ],
+        ),
       ),
     );
   }

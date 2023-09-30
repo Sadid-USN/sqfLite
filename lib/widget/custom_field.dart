@@ -34,7 +34,7 @@ class CustomField extends StatelessWidget {
           ),
           Container(
             margin: const EdgeInsets.only(top: 8.0),
-            height: 55,
+            height: 65,
             width: width ?? MediaQuery.sizeOf(context).width,
             decoration: BoxDecoration(
               border: Border.all(width: 0.9),
@@ -45,6 +45,9 @@ class CustomField extends StatelessWidget {
                 Expanded(
                   child: 
                   TextFormField(
+                    textInputAction: TextInputAction.next,
+                    minLines: 3,
+                    maxLines: 10,
                     keyboardType: TextInputType.text,
                     cursorColor: Colors.blueGrey.shade600,
                     readOnly: widget == null ? false : true,

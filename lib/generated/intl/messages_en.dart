@@ -38,7 +38,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "language": MessageLookupByLibrary.simpleMessage("Languages"),
         "monthly": MessageLookupByLibrary.simpleMessage("Monthly"),
         "none": MessageLookupByLibrary.simpleMessage("None"),
-        "note": MessageLookupByLibrary.simpleMessage("Note"),
         "reminder": MessageLookupByLibrary.simpleMessage("Reminder"),
         "repeat": MessageLookupByLibrary.simpleMessage("Repeat"),
         "selectedremaindMinutesEarly": m0,

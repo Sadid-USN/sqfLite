@@ -1,9 +1,11 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:sql_db/core/addbunner_helper.dart';
 import 'package:sql_db/core/date_format.dart';
 import 'package:sql_db/core/notify_helper.dart';
 import 'package:sql_db/languge_box.dart';
@@ -30,11 +32,28 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  BannerAdHelper bannerAdHelper = BannerAdHelper();
+
   @override
   void initState() {
     super.initState();
 
+   
+
     context.read<HomePageController>().getTasks();
+      bannerAdHelper.initializeAdMob(
+        onAdLoaded: (ad) {
+          setState(() {
+            bannerAdHelper.isBannerAd = true;
+          });
+        },
+      );
+  }
+
+  @override
+  void dispose() {
+   bannerAdHelper.bannerAd.dispose();
+    super.dispose();
   }
 
   @override
@@ -71,20 +90,27 @@ class _HomePageState extends State<HomePage> {
         ],
         centerTitle: true,
       ),
-      body: Consumer<HomePageController>(
-        builder: (context, controller, child) => Column(
-          children: [
-            const Header(),
-            // ignore: sized_box_for_whitespace
-            Container(
+      body: Column(
+        children: [
+          bannerAdHelper.isBannerAd
+              ? SizedBox(
+                  height: bannerAdHelper.bannerAd.size.height.toDouble(),
+                  width: bannerAdHelper.bannerAd.size.width.toDouble(),
+                  child: bannerAdHelper.buildAdWidget(),
+                )
+              : const SizedBox(),
+
+          const Header(),
+          // ignore: sized_box_for_whitespace
+          Consumer<HomePageController>(
+            builder: (context, controller, child) => Container(
               margin: const EdgeInsets.only(top: 16),
               padding: const EdgeInsets.symmetric(horizontal: 16),
               height: 100,
               width: MediaQuery.sizeOf(context).width,
               child: DatePicker(
                 DateTime.now(),
-                locale:  "ru",
-                 
+                locale: "ru",
                 initialSelectedDate: DateTime.now(),
                 monthTextStyle: Theme.of(context).textTheme.titleSmall!,
                 dateTextStyle: Theme.of(context).textTheme.titleMedium!,
@@ -95,94 +121,100 @@ class _HomePageState extends State<HomePage> {
                 onDateChange: controller.onDateChange,
               ),
             ),
+          ),
 
-            Expanded(
-              child: Consumer<HomePageController>(
-                builder: (context, value, child) => ListView.separated(
-                  separatorBuilder: (context, index) => const SizedBox(
-                    height: 2,
-                  ),
-                  shrinkWrap: true,
-                  itemCount: value.taskList.length,
-                  itemBuilder: (context, index) {
-                    Task task = controller.taskList[index];
-
-                    if (task.repeat == "Ежедневно") {
-                      // DateTime date = DateFormat.jm().parse(task.startTime.toString());
-                      // var myTime  =  DateFormat("HH:mm").format(date);
-                      // int.parse(myTime.toString().split(":")[0]);
-                      // dateFormatParser(task.startTime ?? "null", 0),
-
-                      NotificationHelper().scheduleNotification(
-                        hour: dateFormatParser(task.startTime!, 0, ),
-                        minutes: dateFormatParser(task.startTime!, 1,),
-                        task: task,
-                      );
-
-                      return AnimationConfiguration.staggeredList(
-                        position: index,
-                        child: SlideAnimation(
-                          child: FadeInAnimation(
-                            child: Row(
-                              children: [
-                                TaskTile(
-                                  task: task,
-                                  onPressed: () {
-                                    value.onShowBottomSheet(context, task);
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    } else if (task.date ==
-                        DateFormat.yMd().format(value.selectedDate)) {
-                      return AnimationConfiguration.staggeredList(
-                        position: index,
-                        child: SlideAnimation(
-                          child: FadeInAnimation(
-                            child: Row(
-                              children: [
-                                TaskTile(
-                                  task: task,
-                                  onPressed: () {
-                                    value.onShowBottomSheet(context, task);
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    } else {
-                      return const SizedBox();
-
-                      // Center(
-                      //   child: DefaultTextStyle(
-                      //     style: GoogleFonts.lato(
-                      //       textStyle: const TextStyle(
-                      //         fontSize: 20,
-                      //         fontWeight: FontWeight.bold,
-                      //         color: Colors.blueGrey,
-                      //       ),
-                      //     ),
-                      //     child: AnimatedTextKit(
-                      //         pause: const Duration(seconds: 2),
-                      //         repeatForever: true,
-                      //         animatedTexts: [
-                      //           TyperAnimatedText("You have no tasks yet",
-                      //               speed: const Duration(milliseconds: 100)),
-                      //         ]),
-                      //   ),
-                      // );
-                    }
-                  },
+          Expanded(
+            child: Consumer<HomePageController>(
+              builder: (context, value, child) => ListView.separated(
+                separatorBuilder: (context, index) => const SizedBox(
+                  height: 2,
                 ),
+                shrinkWrap: true,
+                itemCount: value.taskList.length,
+                itemBuilder: (context, index) {
+                  Task task = value.taskList[index];
+
+                  if (task.repeat == "Ежедневно") {
+                    // DateTime date = DateFormat.jm().parse(task.startTime.toString());
+                    // var myTime  =  DateFormat("HH:mm").format(date);
+                    // int.parse(myTime.toString().split(":")[0]);
+                    // dateFormatParser(task.startTime ?? "null", 0),
+
+                    NotificationHelper().scheduleNotification(
+                      hour: dateFormatParser(
+                        task.startTime!,
+                        0,
+                      ),
+                      minutes: dateFormatParser(
+                        task.startTime!,
+                        1,
+                      ),
+                      task: task,
+                    );
+
+                    return AnimationConfiguration.staggeredList(
+                      position: index,
+                      child: SlideAnimation(
+                        child: FadeInAnimation(
+                          child: Row(
+                            children: [
+                              TaskTile(
+                                task: task,
+                                onPressed: () {
+                                  value.onShowBottomSheet(context, task);
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  } else if (task.date ==
+                      DateFormat.yMd().format(value.selectedDate)) {
+                    return AnimationConfiguration.staggeredList(
+                      position: index,
+                      child: SlideAnimation(
+                        child: FadeInAnimation(
+                          child: Row(
+                            children: [
+                              TaskTile(
+                                task: task,
+                                onPressed: () {
+                                  value.onShowBottomSheet(context, task);
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  } else {
+                    return const SizedBox();
+
+                    // Center(
+                    //   child: DefaultTextStyle(
+                    //     style: GoogleFonts.lato(
+                    //       textStyle: const TextStyle(
+                    //         fontSize: 20,
+                    //         fontWeight: FontWeight.bold,
+                    //         color: Colors.blueGrey,
+                    //       ),
+                    //     ),
+                    //     child: AnimatedTextKit(
+                    //         pause: const Duration(seconds: 2),
+                    //         repeatForever: true,
+                    //         animatedTexts: [
+                    //           TyperAnimatedText("You have no tasks yet",
+                    //               speed: const Duration(milliseconds: 100)),
+                    //         ]),
+                    //   ),
+                    // );
+                  }
+                },
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }
