@@ -5,6 +5,7 @@ import 'package:sql_db/controllers/home_page_controller.dart';
 import 'package:sql_db/controllers/theme_controller.dart';
 import 'package:sql_db/generated/l10n.dart';
 import 'package:sql_db/main.dart';
+import 'package:sql_db/screen/add_task_page.dart';
 
 import 'package:sql_db/screen/home_page.dart';
 import 'package:sql_db/theme/themes.dart';
@@ -80,8 +81,7 @@ class ColorPalet extends StatelessWidget {
 
               controller.getTasks();
 
-              await  Navigator.of(context)
-                  .pushNamedAndRemoveUntil('/', (route) => false);
+              Navigator.of(context).pop();
             },
           ),
         ),
