@@ -2,6 +2,22 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-7613540986721565~8432665038</string>
+	<key>SKAdNetworkItems</key>
+	<array>
+	<dict>
+	<key>SKAdNetworkIdentifier</key>
+    <string>cstr6suwn9.skadnetwork</string>
+	</dict>
+	<dict>
+	<key>SKAdNetworkIdentifier</key>
+	<string>4fzdc2evr5.skadnetwork</string>
+	</dict>
+	<!-- Добавьте другие значения SKAdNetworkIdentifier, если необходимо -->
+	</array>
+	<key>NSMicrophoneUsageDescription</key>
+    <string>The application does not use this feature</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>

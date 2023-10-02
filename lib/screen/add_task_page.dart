@@ -19,7 +19,7 @@ class AddTaskPage extends StatefulWidget {
 }
 
 class _AddTaskPageState extends State<AddTaskPage> {
-   BannerAdHelper bannerAdHelper = BannerAdHelper();
+  BannerAdHelper bannerAdHelper = BannerAdHelper();
   @override
   void initState() {
     super.initState();
@@ -33,9 +33,9 @@ class _AddTaskPageState extends State<AddTaskPage> {
     );
   }
 
-    @override
+  @override
   void dispose() {
-   bannerAdHelper.bannerAd.dispose();
+    bannerAdHelper.bannerAd.dispose();
     super.dispose();
   }
 
@@ -43,27 +43,19 @@ class _AddTaskPageState extends State<AddTaskPage> {
   Widget build(BuildContext context) {
     var homeController = Provider.of<HomePageController>(context);
     var themeController = Provider.of<ThemeController>(context);
-    
+
     var dateFormat = DateFormat('M/d/yyyy').format(homeController.selectedDate);
 
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
         leading: IconButton(
-            onPressed: () {
-              themeController.playAssetAudio("lib/audio/iron_sound.mp3");
-              Navigator.of(context)
-                  .pop();
-            },
-            icon: const Icon(Icons.arrow_back_ios),
-          ),
-  
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.person),
-          ),
-        ],
+          onPressed: () {
+            themeController.playAssetAudio("lib/audio/iron_sound.mp3");
+            Navigator.of(context).pop();
+          },
+          icon: const Icon(Icons.arrow_back_ios),
+        ),
         centerTitle: true,
       ),
       body: Padding(
@@ -84,107 +76,99 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               CustomField(
-                  controller: homeController.titleEditingController,
-                  title: S.of(context).title,
-                  hintText: S.of(context).enterTitleHere,
-                ),
-      
-            CustomField(
-                  isNote: true,
-                  controller: homeController.noteEditingController,
-                  title: S.of(context).addTask,
-                  hintText: S.of(context).enterNoteHere,
-                ),
-            
-            CustomField(
-                  title: S.of(context).date,
-                  hintText: dateFormat,
-                  widget: IconButton(
-                    onPressed: () {
-                      homeController.getDateFormat(context);
-                    },
-                    icon: const Icon(
-                      Icons.calendar_month,
-                    ),
+                controller: homeController.titleEditingController,
+                title: S.of(context).title,
+                hintText: S.of(context).enterTitleHere,
+              ),
+              CustomField(
+                isNote: true,
+                controller: homeController.noteEditingController,
+                title: S.of(context).addTask,
+                hintText: S.of(context).enterNoteHere,
+              ),
+              CustomField(
+                title: S.of(context).date,
+                hintText: dateFormat,
+                widget: IconButton(
+                  onPressed: () {
+                    homeController.getDateFormat(context);
+                  },
+                  icon: const Icon(
+                    Icons.calendar_month,
                   ),
                 ),
-       
-             Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CustomField(
-                      width: MediaQuery.of(context).size.width / 2.3,
-                      title: S.of(context).startTime,
-                      hintText: homeController.startTime,
-                      widget: IconButton(
-                        onPressed: () {
-                          homeController.getTimeFromUser(
-                              isStartTime: true, context: context);
-                        },
-                        icon: const Icon(Icons.access_time_rounded),
-                      ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CustomField(
+                    width: MediaQuery.of(context).size.width / 2.3,
+                    title: S.of(context).startTime,
+                    hintText: homeController.startTime,
+                    widget: IconButton(
+                      onPressed: () {
+                        homeController.getTimeFromUser(
+                            isStartTime: true, context: context);
+                      },
+                      icon: const Icon(Icons.access_time_rounded),
                     ),
-                   CustomField(
-                        width: MediaQuery.of(context).size.width / 2.3,
-                        title: S.of(context).endTime,
-                        hintText: homeController.endTime,
-                        widget: IconButton(
-                          onPressed: () {
-                            homeController.getTimeFromUser(
-                                isStartTime: false, context: context);
-                          },
-                          icon: const Icon(Icons.access_time_rounded),
-                        ),
-                      ),
-             
-                  ],
-                ),
-          
+                  ),
+                  CustomField(
+                    width: MediaQuery.of(context).size.width / 2.3,
+                    title: S.of(context).endTime,
+                    hintText: homeController.endTime,
+                    widget: IconButton(
+                      onPressed: () {
+                        homeController.getTimeFromUser(
+                            isStartTime: false, context: context);
+                      },
+                      icon: const Icon(Icons.access_time_rounded),
+                    ),
+                  ),
+                ],
+              ),
               CustomField(
-                  title: S.of(context).reminder,
-                  hintText: S
-                      .of(context)
-                      .selectedremaindMinutesEarly(homeController.selectedRemaind),
-                  widget: Padding(
-                      padding: const EdgeInsets.only(right: 8),
-                      child: DropdownButton<String>(
-                        underline: const SizedBox(),
-                        icon: const Icon(Icons.keyboard_arrow_down),
-                        elevation: 4,
-                        items: homeController.reminList
-                            .map<DropdownMenuItem<String>>((int element) {
-                          return DropdownMenuItem<String>(
-                            value: element.toString(),
-                            child: Text(element.toString()),
-                          );
-                        }).toList(),
-                        onChanged: homeController.onRemaindChanged,
-                      )),
-                ),
-           
-           CustomField(
-                  title: 'Повторить',
-                  hintText: homeController.selectedRepeat,
-                  widget: Padding(
+                title: S.of(context).reminder,
+                hintText: S.of(context).selectedremaindMinutesEarly(
+                    homeController.selectedRemaind),
+                widget: Padding(
                     padding: const EdgeInsets.only(right: 8),
                     child: DropdownButton<String>(
                       underline: const SizedBox(),
                       icon: const Icon(Icons.keyboard_arrow_down),
                       elevation: 4,
-                      items: homeController.repeatList
-                          .map<DropdownMenuItem<String>>((String repeat) {
+                      items: homeController.reminList
+                          .map<DropdownMenuItem<String>>((int element) {
                         return DropdownMenuItem<String>(
-                          value: repeat,
-                          child: Text(
-                            repeat,
-                          ),
+                          value: element.toString(),
+                          child: Text(element.toString()),
                         );
                       }).toList(),
-                      onChanged: homeController.onRepeatChanged,
-                    ),
+                      onChanged: homeController.onRemaindChanged,
+                    )),
+              ),
+              CustomField(
+                title: 'Повторить',
+                hintText: homeController.selectedRepeat,
+                widget: Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: DropdownButton<String>(
+                    underline: const SizedBox(),
+                    icon: const Icon(Icons.keyboard_arrow_down),
+                    elevation: 4,
+                    items: homeController.repeatList
+                        .map<DropdownMenuItem<String>>((String repeat) {
+                      return DropdownMenuItem<String>(
+                        value: repeat,
+                        child: Text(
+                          repeat,
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: homeController.onRepeatChanged,
                   ),
                 ),
-         
+              ),
               const SizedBox(
                 height: 12,
               ),

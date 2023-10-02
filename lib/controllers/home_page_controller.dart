@@ -103,6 +103,10 @@ class HomePageController extends ChangeNotifier {
   Future<int> addTask({Task? task}) async {
     return await DBHelper.insert(task);
   }
+ 
+
+
+
 
   _addTaskTodb() async {
     await addTask(
@@ -130,6 +134,8 @@ class HomePageController extends ChangeNotifier {
     DBHelper.delete(task);
     getTasks();
   }
+
+   
 
   void markTaskComleted(int id) async {
     await DBHelper.update(id);

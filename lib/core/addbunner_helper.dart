@@ -1,16 +1,19 @@
+import 'dart:io';
+
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class BannerAdHelper {
   static final BannerAdHelper _instance = BannerAdHelper._internal();
   late BannerAd bannerAd;
-  final String adUnitId = "ca-app-pub-7613540986721565/8217312119";
+  final String adUnitIdAndroid = "ca-app-pub-7613540986721565/8217312119";
+  final String adUnitIdIOS = "ca-app-pub-7613540986721565/4400290372";
   bool isBannerAd = false;
 
   factory BannerAdHelper() {
     return _instance;
   }
 
-   AdWidget buildAdWidget() {
+  AdWidget buildAdWidget() {
     return AdWidget(ad: bannerAd);
   }
 
@@ -19,7 +22,7 @@ class BannerAdHelper {
   void initializeAdMob({required void Function(Ad)? onAdLoaded}) {
     bannerAd = BannerAd(
       size: AdSize.banner,
-      adUnitId: adUnitId,
+      adUnitId: Platform.isAndroid ? adUnitIdAndroid : adUnitIdIOS,
       listener: BannerAdListener(
         onAdLoaded: onAdLoaded,
         onAdFailedToLoad: (ad, error) {
