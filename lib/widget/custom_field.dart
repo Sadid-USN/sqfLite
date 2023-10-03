@@ -8,12 +8,11 @@ class CustomField extends StatelessWidget {
   final Widget? widget;
   final bool isNote;
 
-
   const CustomField({
     super.key,
     required this.title,
     required this.hintText,
-    this.isNote=false,
+    this.isNote = false,
     this.controller,
     this.widget,
     this.width,
@@ -43,8 +42,8 @@ class CustomField extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                  child: 
-                  TextFormField(
+                  child: TextFormField(
+                    // validator: validator,
                     textInputAction: TextInputAction.next,
                     minLines: 3,
                     maxLines: 10,
@@ -71,6 +70,10 @@ class CustomField extends StatelessWidget {
                             const BorderSide(width: 0, color: Colors.white),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
 
                       enabledBorder: OutlineInputBorder(
                         borderSide: const BorderSide(
@@ -81,7 +84,6 @@ class CustomField extends StatelessWidget {
                       ),
                     ),
                   ),
-                
                 ),
                 widget == null
                     ? const SizedBox()

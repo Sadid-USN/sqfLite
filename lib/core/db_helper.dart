@@ -5,19 +5,22 @@ class DBHelper {
   static Database? _db;
   static const int _version = 1;
   static const String _tableName = "task";
-
+ DBHelper() {
+    initDB();
+  }
   static Future<void> initDB() async {
     if (_db != null) {
       return;
     }
     try {
-      String path = "${await getDatabasesPath()} task.db";
+      String path = "${getDatabasesPath()} task.db";
       _db = await openDatabase(
         path,
         version: _version,
-        onCreate: (db, version) {
+        onCreate: (db, version) async{
           print("create a new one");
-          return db.execute(''' CREATE TABLE $_tableName(
+          return await db.execute(
+         '''CREATE TABLE $_tableName(
           id INTEGER PRIMARY KEY AUTOINCREMENT, 
           title STRING, 
           note TEXT, 
@@ -41,14 +44,8 @@ class DBHelper {
   }
 
   static Future<List<Map<String, dynamic>>> query() async {
-    try {
-      print("Query function called");
-      final result = await _db!.query(_tableName);
-      return result;
-    } catch (error) {
-      print("Error querying the database: $error");
-      return []; // Return an empty list in case of an error
-    }
+    print("Query function called");
+    return await _db!.query(_tableName);
   }
 
   static Future<int> delete(Task task) async {
@@ -59,24 +56,22 @@ class DBHelper {
 
   static update(int id) async {
     return await _db!.rawUpdate(
-      '''
+     '''
      UPDATE task
      SET isCompleted = ?
-     WHERE id = ?
-   
-         ''',
+     WHERE id = ?''',
       [1, id],
     );
   }
 
-  static Future<int> updateTask(Task task) async {
-    print("Updating task with id: ${task.id}");
+  // static Future<int> updateTask(Task task) async {
+  //   print("Updating task with id: ${task.id}");
 
-    return await _db!.update(
-      _tableName,
-      task.toJson(),
-      where: 'id = ?',
-      whereArgs: [task.id],
-    );
-  }
+  //   return await _db!.update(
+  //     _tableName,
+  //     task.toJson(),
+  //     where: 'id = ?',
+  //     whereArgs: [task.id],
+  //   );
+  // }
 }

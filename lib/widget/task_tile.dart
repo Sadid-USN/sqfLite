@@ -99,25 +99,14 @@ class TaskTile extends StatelessWidget {
                     ),
                   ),
                   child: task.isCompleted == 1
-                      ? Row(
-                          children: [
-                            IconButton(
-                              onPressed: () {
-                                
-
-                              },
-                              icon: const Icon(Icons.edit),
-                            ),
-                            AnimatedTextKit(
-                                pause: const Duration(seconds: 2),
-                                totalRepeatCount: 5,
-                                // repeatForever: task.isCompleted == 1 ? true : false,
-                                animatedTexts: [
-                                  TyperAnimatedText("ЗАВЕРШЕНО",
-                                      speed: const Duration(milliseconds: 100)),
-                                ]),
-                          ],
-                        )
+                      ? AnimatedTextKit(
+                          pause: const Duration(seconds: 2),
+                          totalRepeatCount: 5,
+                          // repeatForever: task.isCompleted == 1 ? true : false,
+                          animatedTexts: [
+                            TyperAnimatedText("ЗАВЕРШЕНО",
+                                speed: const Duration(milliseconds: 100)),
+                          ])
                       : const Text("ВЫПОЛНИТЬ"),
                 )
 

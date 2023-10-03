@@ -18,7 +18,7 @@ import 'package:sql_db/core/db_helper.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await MobileAds.instance.initialize();
-  DBHelper.initDB();
+  await DBHelper.initDB();
   await NotificationHelper().initNotification();
   await GetStorage.init();
 
@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: S.delegate.supportedLocales,
-      locale: const Locale("ru", "RU"),
+      
       debugShowCheckedModeBanner: false,
       title: 'Todo app',
       theme: controller.themeData,

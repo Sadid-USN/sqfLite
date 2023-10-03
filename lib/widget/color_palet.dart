@@ -2,12 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 import 'package:sql_db/controllers/home_page_controller.dart';
-import 'package:sql_db/controllers/theme_controller.dart';
 import 'package:sql_db/generated/l10n.dart';
-import 'package:sql_db/main.dart';
-import 'package:sql_db/screen/add_task_page.dart';
-
-import 'package:sql_db/screen/home_page.dart';
 import 'package:sql_db/theme/themes.dart';
 import 'package:sql_db/widget/add_task_button.dart';
 
@@ -76,12 +71,16 @@ class ColorPalet extends StatelessWidget {
             showIcon: false,
             title: S.of(context).createTask,
             onPressed: () async {
-             
+           
+         
+
               controller.validation(context);
+       
+          
 
-              controller.getTasks();
+              // controller.getTasks();
 
-              Navigator.of(context).pop();
+             
             },
           ),
         ),

@@ -1,11 +1,11 @@
 // ignore_for_file: unnecessary_overrides
 
 import 'package:flutter/material.dart';
-import 'package:flutter_locales/flutter_locales.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:sql_db/controllers/theme_controller.dart';
 import 'package:sql_db/core/db_helper.dart';
+import 'package:sql_db/core/validator.dart';
 import 'package:sql_db/generated/l10n.dart';
 import 'package:sql_db/languge_box.dart';
 import 'package:sql_db/theme/themes.dart';
@@ -23,24 +23,10 @@ class HomePageController extends ChangeNotifier {
 
   TextEditingController titleEditingController = TextEditingController();
   TextEditingController noteEditingController = TextEditingController();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
   DateTime selectedDate = DateTime.now();
   String startTime = DateFormat('HH:mm').format(DateTime.now());
   String endTime = DateFormat('HH:mm').format(DateTime.now());
-
-  // String getFormattedTime() {
-  //   DateTime now = DateTime.now();
-
-  //   if (languageBox.read("code") == null || languageBox.read("code") == "ru") {
-  //     notifyListeners();
-  //     startTime = DateFormat('HH:mm').format(now);
-
-  //     return startTime;
-  //   } else {
-  //     startTime = DateFormat('hh:mm a').format(now);
-  //     notifyListeners();
-  //     return startTime;
-  //   }
-  // }
 
   int selectedRemaind = 5;
   List<int> reminList = [5, 10, 15, 20];
@@ -79,19 +65,21 @@ class HomePageController extends ChangeNotifier {
     if (titleEditingController.text.isNotEmpty &&
         noteEditingController.text.isNotEmpty) {
       _addTaskTodb();
+      getTasks();
       themeController.playAssetAudio('lib/audio/click.mp3');
 
       titleEditingController.clear();
       noteEditingController.clear();
-    } else if (titleEditingController.text.isEmpty ||
-        titleEditingController.text.isEmpty) {
+      Navigator.of(context).pop();
+    } else {
       themeController.playAssetAudio('lib/audio/empty_filed.mp3');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
+          backgroundColor: error,
           content: Column(
             children: [
               Text(
-                S.of(context).youLeftTheFieldsEmpty,
+                "Вы не заполнили обязательные поля",
               )
             ],
           ),
@@ -103,10 +91,6 @@ class HomePageController extends ChangeNotifier {
   Future<int> addTask({Task? task}) async {
     return await DBHelper.insert(task);
   }
- 
-
-
-
 
   _addTaskTodb() async {
     await addTask(
@@ -134,8 +118,6 @@ class HomePageController extends ChangeNotifier {
     DBHelper.delete(task);
     getTasks();
   }
-
-   
 
   void markTaskComleted(int id) async {
     await DBHelper.update(id);
@@ -189,19 +171,17 @@ class HomePageController extends ChangeNotifier {
       {required bool isStartTime, required BuildContext context}) async {
     var pickedTime = await _showTimePicker(context);
 
-    if (context.mounted) {
-      String formatTime = pickedTime.format(context);
-      if (pickedTime == null) {
-        print('Time canceled');
-      } else if (isStartTime == true) {
-        startTime = formatTime;
-        notifyListeners();
-      } else if (isStartTime == false) {
-        endTime = formatTime;
-        notifyListeners();
-      }
+    String formatTime = pickedTime.format(context);
+    if (pickedTime == null) {
+      print('Time canceled');
+    } else if (isStartTime == true) {
+      startTime = formatTime;
+      notifyListeners();
+    } else if (isStartTime == false) {
+      endTime = formatTime;
       notifyListeners();
     }
+    notifyListeners();
   }
 
   _showTimePicker(BuildContext context) {
@@ -209,19 +189,18 @@ class HomePageController extends ChangeNotifier {
       initialEntryMode: TimePickerEntryMode.input,
       context: context,
       initialTime: TimeOfDay(
-                  hour: int.parse(startTime.split(":")[0]),
-                  minute: int.parse(startTime.split(":")[1]),
-                ),
-              // : TimeOfDay(
-              //     hour: int.parse(startTime.split(":")[0]),
-              //     minute: int.parse(startTime.split(":")[1].split(" ")[0]),
-              //   ),
+        hour: int.parse(startTime.split(":")[0]),
+        minute: int.parse(startTime.split(":")[1]),
+      ),
+      // : TimeOfDay(
+      //     hour: int.parse(startTime.split(":")[0]),
+      //     minute: int.parse(startTime.split(":")[1].split(" ")[0]),
+      //   ),
 
       // .split(" ")[0]
       builder: (context, child) {
         return MediaQuery(
-            data: MediaQuery.of(context).copyWith(
-                alwaysUse24HourFormat: true),
+            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
             child: child!);
       },
     );
