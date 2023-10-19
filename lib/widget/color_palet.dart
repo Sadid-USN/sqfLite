@@ -47,7 +47,7 @@ class ColorPalet extends StatelessWidget {
                                 ? lightPrimaryColor
                                 : index == 1
                                     ? Colors.purple
-                                    : Colors.orange,
+                                    : Colors.blueGrey.shade500,
                             child: controller.selectedColor == index
                                 ? const Icon(
                                     Icons.done,

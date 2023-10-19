@@ -33,18 +33,18 @@ class Header extends StatelessWidget {
               ),
             ],
           ),
-          Consumer<ThemeController>(
-            builder: (context, themeController, child) => AddTaskButton(
-              title: S.of(context).addTask,
-              onPressed: () {
-                // Call playAudio method from ThemeController
-                themeController.playAssetAudio("lib/audio/click.mp3");
-                Navigator.push(context, MaterialPageRoute(builder: ((context) {
-                  return const AddTaskPage();
-                })));
-              },
-            ),
-          ),
+          // Consumer<ThemeController>(
+          //   builder: (context, themeController, child) => AddTaskButton(
+          //     title: S.of(context).addTask,
+          //     onPressed: () {
+          //       // Call playAudio method from ThemeController
+          //       themeController.playAssetAudio("lib/audio/click.mp3");
+          //       Navigator.push(context, MaterialPageRoute(builder: ((context) {
+          //         return const AddTaskPage();
+          //       })));
+          //     },
+          //   ),
+          // ),
         ],
       ),
     );

@@ -5,19 +5,21 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:sql_db/controllers/theme_controller.dart';
 import 'package:sql_db/core/addbunner_helper.dart';
 import 'package:sql_db/core/date_format.dart';
 import 'package:sql_db/core/notify_helper.dart';
+import 'package:sql_db/generated/l10n.dart';
 import 'package:sql_db/languge_box.dart';
 import 'package:sql_db/models/task_model.dart';
+import 'package:sql_db/screen/add_task_page.dart';
 import 'package:sql_db/screen/langugage_page.dart';
 
 import 'package:sql_db/theme/themes.dart';
+import 'package:sql_db/widget/add_task_button.dart';
 import 'package:sql_db/widget/header.dart';
 import 'package:sql_db/widget/task_tile.dart';
 import '../controllers/home_page_controller.dart';
-
-//! 1:36
 
 class HomePage extends StatefulWidget {
   static const HOME = '/home';
@@ -38,21 +40,19 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
-   
-
     context.read<HomePageController>().getTasks();
-      bannerAdHelper.initializeAdMob(
-        onAdLoaded: (ad) {
-          setState(() {
-            bannerAdHelper.isBannerAd = true;
-          });
-        },
-      );
+    bannerAdHelper.initializeAdMob(
+      onAdLoaded: (ad) {
+        setState(() {
+          bannerAdHelper.isBannerAd = true;
+        });
+      },
+    );
   }
 
   @override
   void dispose() {
-   bannerAdHelper.bannerAd.dispose();
+    bannerAdHelper.bannerAd.dispose();
     super.dispose();
   }
 
@@ -60,6 +60,23 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     var homeController = Provider.of<HomePageController>(context, listen: true);
     return Scaffold(
+      floatingActionButton: Consumer<ThemeController>(
+        builder: (context, themeController, child) => FloatingActionButton(
+
+          child: const Icon(Icons.add),
+          onPressed: () {
+            // Call playAudio method from ThemeController
+            themeController.playAssetAudio("lib/audio/click.mp3");
+            Navigator.push(context, MaterialPageRoute(builder: ((context) {
+              return const AddTaskPage();
+            })));
+          },
+        ),
+        child: FloatingActionButton(
+          child: const Icon(Icons.add),
+          onPressed: () {},
+        ),
+      ),
       appBar: AppBar(
         elevation: 0.0,
         leading: IconButton(
@@ -101,27 +118,30 @@ class _HomePageState extends State<HomePage> {
               : const SizedBox(),
 
           const Header(),
-          // ignore: sized_box_for_whitespace
-          Consumer<HomePageController>(
-            builder: (context, controller, child) => Container(
-              margin: const EdgeInsets.only(top: 16),
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              height: 100,
-              width: MediaQuery.sizeOf(context).width,
-              child: DatePicker(
-                DateTime.now(),
-                locale: "ru",
-                initialSelectedDate: DateTime.now(),
-                monthTextStyle: Theme.of(context).textTheme.titleSmall!,
-                dateTextStyle: Theme.of(context).textTheme.titleMedium!,
-                dayTextStyle: Theme.of(context).textTheme.titleSmall!,
-                selectionColor: homeController.loadThemeFromBox()
-                    ? primaryColor
-                    : lightPrimaryColor,
-                onDateChange: controller.onDateChange,
-              ),
-            ),
+          const SizedBox(
+            height: 20,
           ),
+          // ignore: sized_box_for_whitespace
+          // Consumer<HomePageController>(
+          //   builder: (context, controller, child) => Container(
+          //     margin: const EdgeInsets.only(top: 16),
+          //     padding: const EdgeInsets.symmetric(horizontal: 16),
+          //     height: 100,
+          //     width: MediaQuery.sizeOf(context).width,
+          //     child: DatePicker(
+          //       DateTime.now(),
+          //       locale: "ru",
+          //       initialSelectedDate: DateTime.now(),
+          //       monthTextStyle: Theme.of(context).textTheme.titleSmall!,
+          //       dateTextStyle: Theme.of(context).textTheme.titleMedium!,
+          //       dayTextStyle: Theme.of(context).textTheme.titleSmall!,
+          //       selectionColor: homeController.loadThemeFromBox()
+          //           ? primaryColor
+          //           : lightPrimaryColor,
+          //      onDateChange: controller.onDateChange,
+          //     ),
+          //   ),
+          // ),
 
           Expanded(
             child: Consumer<HomePageController>(
@@ -134,21 +154,10 @@ class _HomePageState extends State<HomePage> {
                 itemBuilder: (context, index) {
                   Task task = value.taskList[index];
 
-                  if (task.repeat == "Ежедневно") {
-                    // DateTime date = DateFormat.jm().parse(task.startTime.toString());
-                    // var myTime  =  DateFormat("HH:mm").format(date);
-                    // int.parse(myTime.toString().split(":")[0]);
-                    // dateFormatParser(task.startTime ?? "null", 0),
-
+                  if (task.repeat == "Никогда") {
                     NotificationHelper().scheduleNotification(
-                      hour: dateFormatParser(
-                        task.startTime!,
-                        0,
-                      ),
-                      minutes: dateFormatParser(
-                        task.startTime!,
-                        1,
-                      ),
+                      hour: dateFormatParser(task.startTime!, 0),
+                      minutes: dateFormatParser(task.startTime!, 1),
                       task: task,
                     );
 

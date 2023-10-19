@@ -33,9 +33,9 @@ class HomePageController extends ChangeNotifier {
   String selectedRepeat = 'Никогда';
   List<String> repeatList = [
     "Никогда",
-    "Ежедневно",
-    "Еженедельно",
-    "Ежемесячно",
+    // "Ежедневно",
+    // "Еженедельно",
+    // "Ежемесячно",
   ];
 
   int selectedColor = 0;
@@ -155,8 +155,8 @@ class HomePageController extends ChangeNotifier {
     DateTime? pickerDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2016),
-      lastDate: DateTime(2030),
+      firstDate: DateTime(2005),
+      lastDate: DateTime(2060),
     );
 
     if (pickerDate != null) {
@@ -170,17 +170,19 @@ class HomePageController extends ChangeNotifier {
   getTimeFromUser(
       {required bool isStartTime, required BuildContext context}) async {
     var pickedTime = await _showTimePicker(context);
-
-    String formatTime = pickedTime.format(context);
-    if (pickedTime == null) {
-      print('Time canceled');
-    } else if (isStartTime == true) {
-      startTime = formatTime;
-      notifyListeners();
-    } else if (isStartTime == false) {
-      endTime = formatTime;
-      notifyListeners();
+    if (context.mounted) {
+      String formatTime = pickedTime.format(context);
+      if (pickedTime == null) {
+        print('Time canceled');
+      } else if (isStartTime == true) {
+        startTime = formatTime;
+        notifyListeners();
+      } else if (isStartTime == false) {
+        endTime = formatTime;
+        notifyListeners();
+      }
     }
+
     notifyListeners();
   }
 

@@ -129,48 +129,49 @@ class _AddTaskPageState extends State<AddTaskPage> {
                     ),
                   ],
                 ),
-                CustomField(
-                  title: S.of(context).reminder,
-                  hintText: S.of(context).selectedremaindMinutesEarly(
-                      homeController.selectedRemaind),
-                  widget: Padding(
-                      padding: const EdgeInsets.only(right: 8),
-                      child: DropdownButton<String>(
-                        underline: const SizedBox(),
-                        icon: const Icon(Icons.keyboard_arrow_down),
-                        elevation: 4,
-                        items: homeController.reminList
-                            .map<DropdownMenuItem<String>>((int element) {
-                          return DropdownMenuItem<String>(
-                            value: element.toString(),
-                            child: Text(element.toString()),
-                          );
-                        }).toList(),
-                        onChanged: homeController.onRemaindChanged,
-                      )),
-                ),
-                CustomField(
-                  title: 'Повторить',
-                  hintText: homeController.selectedRepeat,
-                  widget: Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: DropdownButton<String>(
-                      underline: const SizedBox(),
-                      icon: const Icon(Icons.keyboard_arrow_down),
-                      elevation: 4,
-                      items: homeController.repeatList
-                          .map<DropdownMenuItem<String>>((String repeat) {
-                        return DropdownMenuItem<String>(
-                          value: repeat,
-                          child: Text(
-                            repeat,
-                          ),
-                        );
-                      }).toList(),
-                      onChanged: homeController.onRepeatChanged,
-                    ),
-                  ),
-                ),
+                // CustomField(
+                //   title: S.of(context).reminder,
+                //   hintText: S.of(context).selectedremaindMinutesEarly(
+                //       homeController.selectedRemaind),
+                //   widget: Padding(
+                //       padding: const EdgeInsets.only(right: 8),
+                //       child: DropdownButton<String>(
+                //         underline: const SizedBox(),
+                //         icon: const Icon(Icons.keyboard_arrow_down),
+                //         elevation: 4,
+                //         items: homeController.reminList
+                //             .map<DropdownMenuItem<String>>((int element) {
+                //           return DropdownMenuItem<String>(
+                //             value: element.toString(),
+                //             child: Text(element.toString()),
+                //           );
+                //         }).toList(),
+                //         onChanged: homeController.onRemaindChanged,
+                //       )),
+                // ),
+               
+                // CustomField(
+                //   title: 'Повторить',
+                //   hintText: homeController.selectedRepeat,
+                //   widget: Padding(
+                //     padding: const EdgeInsets.only(right: 8),
+                //     child: DropdownButton<String>(
+                //       underline: const SizedBox(),
+                //       icon: const Icon(Icons.keyboard_arrow_down),
+                //       elevation: 4,
+                //       items: homeController.repeatList
+                //           .map<DropdownMenuItem<String>>((String repeat) {
+                //         return DropdownMenuItem<String>(
+                //           value: repeat,
+                //           child: Text(
+                //             repeat,
+                //           ),
+                //         );
+                //       }).toList(),
+                //       onChanged: homeController.onRepeatChanged,
+                //     ),
+                //   ),
+                // ),
                 const SizedBox(
                   height: 12,
                 ),

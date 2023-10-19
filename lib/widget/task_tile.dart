@@ -82,45 +82,56 @@ class TaskTile extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 10),
-              height: MediaQuery.sizeOf(context).height / 11,
-              width: 0.5,
-              color: Colors.grey[200]!.withOpacity(0.7),
-            ),
-            RotatedBox(
-                quarterTurns: 3,
-                child: DefaultTextStyle(
-                  style: GoogleFonts.lato(
-                    textStyle: const TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  child: task.isCompleted == 1
-                      ? AnimatedTextKit(
-                          pause: const Duration(seconds: 2),
-                          totalRepeatCount: 5,
-                          // repeatForever: task.isCompleted == 1 ? true : false,
-                          animatedTexts: [
-                            TyperAnimatedText("ЗАВЕРШЕНО",
-                                speed: const Duration(milliseconds: 100)),
-                          ])
-                      : const Text("ВЫПОЛНИТЬ"),
-                )
+            // Container(
+            //   margin: const EdgeInsets.symmetric(horizontal: 10),
+            //   height: MediaQuery.sizeOf(context).height / 11,
+            //   width: 0.5,
+            //   color: Colors.grey[200]!.withOpacity(0.7),
+            // ),
 
-                // Text(
-                //   task.isCompleted == 1 ? "COMPLETED" : "TODO",
-                //   style: GoogleFonts.lato(
-                //     textStyle: const TextStyle(
-                //       fontSize: 10,
-                //       fontWeight: FontWeight.bold,
-                //       color: Colors.white,
-                //     ),
-                //   ),
-                // ),
-                ),
+            CircleAvatar(
+              backgroundColor:
+                  task.isCompleted == 1 ? Colors.green : Colors.orange,
+              radius: 12,
+              child: task.isCompleted == 1
+                  ? const Icon(Icons.check)
+                  : const SizedBox(),
+            ),
+            
+            // RotatedBox(
+            //     quarterTurns: 3,
+            //     child: DefaultTextStyle(
+            //       style: GoogleFonts.lato(
+            //         textStyle: const TextStyle(
+            //           fontSize: 10,
+            //           fontWeight: FontWeight.bold,
+            //           color: Colors.white,
+            //         ),
+            //       ),
+            //       child: task.isCompleted == 1
+            //           ?
+
+            //           AnimatedTextKit(
+            //               pause: const Duration(seconds: 2),
+            //               totalRepeatCount: 5,
+            //               animatedTexts: [
+            //                   TyperAnimatedText("ЗАВЕРШЕНО",
+            //                       speed: const Duration(milliseconds: 100)),
+            //                 ])
+            //           : const Text("ВЫПОЛНИТЬ"),
+            //     )
+
+            //     // Text(
+            //     //   task.isCompleted == 1 ? "COMPLETED" : "TODO",
+            //     //   style: GoogleFonts.lato(
+            //     //     textStyle: const TextStyle(
+            //     //       fontSize: 10,
+            //     //       fontWeight: FontWeight.bold,
+            //     //       color: Colors.white,
+            //     //     ),
+            //     //   ),
+            //     // ),
+            //     ),
           ],
         ),
       ),
@@ -134,7 +145,7 @@ class TaskTile extends StatelessWidget {
       case 1:
         return Colors.pink;
       case 2:
-        return Colors.orange;
+        return Colors.blueGrey.shade500;
       default:
         return lightPrimaryColor;
     }

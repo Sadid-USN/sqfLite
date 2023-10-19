@@ -40,9 +40,7 @@ class NotificationHelper {
     await flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse:
-          (NotificationResponse notificationResponse) async {
-
-          },
+          (NotificationResponse notificationResponse) async {},
       onDidReceiveBackgroundNotificationResponse: selectNotification,
     );
   }
@@ -91,7 +89,9 @@ class NotificationHelper {
       minuts,
     );
     if (scheduleDate.isBefore(now)) {
-      scheduleDate = scheduleDate.add(const Duration(hours: 1));
+      scheduleDate = scheduleDate.add(
+        const Duration(hours: 1),
+      );
     }
     return scheduleDate;
   }
