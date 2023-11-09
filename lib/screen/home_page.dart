@@ -1,6 +1,8 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'package:intl/intl.dart';
@@ -62,20 +64,18 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       floatingActionButton: Consumer<ThemeController>(
         builder: (context, themeController, child) => FloatingActionButton(
-
           child: const Icon(Icons.add),
           onPressed: () {
-            // Call playAudio method from ThemeController
             themeController.playAssetAudio("lib/audio/click.mp3");
             Navigator.push(context, MaterialPageRoute(builder: ((context) {
               return const AddTaskPage();
             })));
           },
         ),
-        child: FloatingActionButton(
-          child: const Icon(Icons.add),
-          onPressed: () {},
-        ),
+        // child: FloatingActionButton(
+        //   child: const Icon(Icons.add),
+        //   onPressed: () {},
+        // ),
       ),
       appBar: AppBar(
         elevation: 0.0,
@@ -116,7 +116,7 @@ class _HomePageState extends State<HomePage> {
                   child: bannerAdHelper.buildAdWidget(),
                 )
               : const SizedBox(),
-
+           const SizedBox(height: 16,),
           const Header(),
           const SizedBox(
             height: 20,
@@ -154,12 +154,12 @@ class _HomePageState extends State<HomePage> {
                 itemBuilder: (context, index) {
                   Task task = value.taskList[index];
 
-                  if (task.repeat == "Никогда") {
-                    NotificationHelper().scheduleNotification(
-                      hour: dateFormatParser(task.startTime!, 0),
-                      minutes: dateFormatParser(task.startTime!, 1),
-                      task: task,
-                    );
+                  if (task.title!.isNotEmpty) {
+                    // NotificationHelper().scheduleNotification(
+                    //   hour: timeFormatParser(task.startTime!, 0),
+                    //   minutes: timeFormatParser(task.startTime!, 1),
+                    //   task: task,
+                    // );
 
                     return AnimationConfiguration.staggeredList(
                       position: index,
@@ -199,7 +199,6 @@ class _HomePageState extends State<HomePage> {
                     );
                   } else {
                     return const SizedBox();
-
                     // Center(
                     //   child: DefaultTextStyle(
                     //     style: GoogleFonts.lato(
@@ -214,6 +213,8 @@ class _HomePageState extends State<HomePage> {
                     //         repeatForever: true,
                     //         animatedTexts: [
                     //           TyperAnimatedText("You have no tasks yet",
+                    //               textStyle:
+                    //                   const TextStyle(color: Colors.black, fontSize: 20),
                     //               speed: const Duration(milliseconds: 100)),
                     //         ]),
                     //   ),
