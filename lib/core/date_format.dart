@@ -1,9 +1,9 @@
 import 'package:intl/intl.dart';
 
+int timeFormatParser(String timeString, int index) {
+  DateTime dateTime = DateFormat('h:mm a').parse(timeString);
+  String formattedTime = DateFormat('h:mm a').format(dateTime);
+  List<String> timeParts = formattedTime.split(':');
 
-int dateFormatParser(String startDay, int index) {
-  DateTime date = DateFormat.jm().parse(startDay.toString());
-  var myTime = DateFormat("HH:mm").format(date);
-  return int.parse(myTime.toString().split(":")[index]);
+  return int.parse(timeParts[index == 0 ? 0 : 1].split(' ')[0]);
 }
-

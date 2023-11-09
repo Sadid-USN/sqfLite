@@ -25,8 +25,8 @@ class HomePageController extends ChangeNotifier {
   TextEditingController noteEditingController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   DateTime selectedDate = DateTime.now();
-  String startTime = DateFormat('HH:mm').format(DateTime.now());
-  String endTime = DateFormat('HH:mm').format(DateTime.now());
+  String startTime = DateFormat('h:mm a').format(DateTime.now());
+  String endTime = DateFormat('h:mm a').format(DateTime.now());
 
   int selectedRemaind = 5;
   List<int> reminList = [5, 10, 15, 20];
@@ -48,18 +48,6 @@ class HomePageController extends ChangeNotifier {
     languageBox.write('code', lang);
     notifyListeners();
   }
-
-  // void _changlang() {
-  //   if (languageBox.read("code") == "ru") {
-  //     startTime = DateFormat('HH:mm').format(DateTime.now());
-  //     endTime = DateFormat('HH:mm').format(DateTime.now());
-  //     notifyListeners();
-  //   } else {
-  //     startTime = DateFormat('hh:mm a').format(DateTime.now());
-  //     endTime = DateFormat('hh:mm a').format(DateTime.now());
-  //     notifyListeners();
-  //   }
-  // }
 
   void validation(BuildContext context) {
     if (titleEditingController.text.isNotEmpty &&
@@ -173,7 +161,6 @@ class HomePageController extends ChangeNotifier {
     if (context.mounted) {
       String formatTime = pickedTime.format(context);
       if (pickedTime == null) {
-        print('Time canceled');
       } else if (isStartTime == true) {
         startTime = formatTime;
         notifyListeners();
@@ -191,20 +178,20 @@ class HomePageController extends ChangeNotifier {
       initialEntryMode: TimePickerEntryMode.input,
       context: context,
       initialTime: TimeOfDay(
-        hour: int.parse(startTime.split(":")[0]),
-        minute: int.parse(startTime.split(":")[1]),
-      ),
+          hour: int.parse(startTime.split(":")[0]),
+          minute: int.parse(startTime.split(":")[1].split(" ")[0]),
+        ),
       // : TimeOfDay(
       //     hour: int.parse(startTime.split(":")[0]),
       //     minute: int.parse(startTime.split(":")[1].split(" ")[0]),
       //   ),
 
       // .split(" ")[0]
-      builder: (context, child) {
-        return MediaQuery(
-            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-            child: child!);
-      },
+      // builder: (context, child) {
+      //   return MediaQuery(
+      //       data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+      //       child: child!);
+      // },
     );
   }
 
