@@ -46,19 +46,19 @@ class BottomSheetWidget extends StatelessWidget {
             BottomSheetButton(
               isTaskCompleted: task.isCompleted == 1 ? true : false,
               color: Colors.indigo,
-              title: "Завершите задачу",
+              title: "End task",
               onPressed: onTaskCompletedPressed,
             ),
             BottomSheetButton(
               color: Colors.red,
-              title: "Удалить задачу",
+              title: "Delete task",
               onPressed: onDeletePressed,
             ),
             const SizedBox(height: 10),
             BottomSheetButton(
               borderColor: Colors.white,
               color: Colors.blueGrey.shade400,
-              title: "Закрыть",
+              title: "Close",
               onPressed: onClosePressed,
             ),
             

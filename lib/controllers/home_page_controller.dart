@@ -178,9 +178,9 @@ class HomePageController extends ChangeNotifier {
       initialEntryMode: TimePickerEntryMode.input,
       context: context,
       initialTime: TimeOfDay(
-          hour: int.parse(startTime.split(":")[0]),
-          minute: int.parse(startTime.split(":")[1].split(" ")[0]),
-        ),
+        hour: int.parse(startTime.split(":")[0]),
+        minute: int.parse(startTime.split(":")[1].split(" ")[0]),
+      ),
       // : TimeOfDay(
       //     hour: int.parse(startTime.split(":")[0]),
       //     minute: int.parse(startTime.split(":")[1].split(" ")[0]),

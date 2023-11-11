@@ -1,24 +1,16 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:date_picker_timeline/date_picker_widget.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+
 
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sql_db/controllers/theme_controller.dart';
 import 'package:sql_db/core/addbunner_helper.dart';
-import 'package:sql_db/core/date_format.dart';
-import 'package:sql_db/core/notify_helper.dart';
-import 'package:sql_db/generated/l10n.dart';
-import 'package:sql_db/languge_box.dart';
+
 import 'package:sql_db/models/task_model.dart';
 import 'package:sql_db/screen/add_task_page.dart';
-import 'package:sql_db/screen/langugage_page.dart';
 
-import 'package:sql_db/theme/themes.dart';
-import 'package:sql_db/widget/add_task_button.dart';
 import 'package:sql_db/widget/header.dart';
 import 'package:sql_db/widget/task_tile.dart';
 import '../controllers/home_page_controller.dart';
@@ -154,7 +146,7 @@ class _HomePageState extends State<HomePage> {
                 itemBuilder: (context, index) {
                   Task task = value.taskList[index];
 
-                  if (task.title!.isNotEmpty) {
+                  if (value.taskList.isNotEmpty) {
                     // NotificationHelper().scheduleNotification(
                     //   hour: timeFormatParser(task.startTime!, 0),
                     //   minutes: timeFormatParser(task.startTime!, 1),
@@ -179,7 +171,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     );
                   } else if (task.date ==
-                      DateFormat.yMd().format(value.selectedDate)) {
+                      DateFormat.yMd("en").format(value.selectedDate)) {
                     return AnimationConfiguration.staggeredList(
                       position: index,
                       child: SlideAnimation(
