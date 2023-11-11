@@ -93,11 +93,9 @@ class _AddTaskPageState extends State<AddTaskPage> {
                   hintText: dateFormat,
                   widget: IconButton(
                     onPressed: () {
-                      homeController.getDateFormat(context);
+                    //  homeController.getDateFormat(context);
                     },
-                    icon: const Icon(
-                      Icons.calendar_month,
-                    ),
+                    icon: const SizedBox(),
                   ),
                 ),
                 Row(
