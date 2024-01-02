@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:sql_db/theme/themes.dart';
 
 class AddTaskButton extends StatelessWidget {
   final void Function()? onPressed;
   final String title;
   final bool showIcon;
   const AddTaskButton(
-      {super.key, required this.onPressed, required this.title, this.showIcon = true});
+      {super.key,
+      required this.onPressed,
+      required this.title,
+      this.showIcon = true});
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
+          backgroundColor: const Color(0xff285274),
           elevation: 0.0,
           padding: const EdgeInsets.only(
             top: 16,
@@ -24,11 +29,18 @@ class AddTaskButton extends StatelessWidget {
         onPressed: onPressed,
         child: Row(
           children: [
-          showIcon?  const Icon(
-              Icons.add,
-              size: 16,
-            ): const SizedBox(),
-            Text(title)
+            showIcon
+                ? const Icon(
+                    Icons.add,
+                    size: 16,
+                  )
+                : const SizedBox(),
+            Text(
+              title,
+              style: const TextStyle(
+                color: Colors.white,
+              ),
+            )
           ],
         ));
   }

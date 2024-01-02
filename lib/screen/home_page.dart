@@ -59,8 +59,11 @@ class _HomePageState extends State<HomePage> {
           child: const Icon(Icons.add),
           onPressed: () {
             themeController.playAssetAudio("lib/audio/click.mp3");
+            homeController.titleEditingController.clear();
+            homeController.noteEditingController.clear();
             Navigator.push(context, MaterialPageRoute(builder: ((context) {
               return const AddTaskPage();
+
             })));
           },
         ),

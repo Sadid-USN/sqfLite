@@ -26,10 +26,14 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "addNewTask": MessageLookupByLibrary.simpleMessage("Add a new task"),
         "addTask": MessageLookupByLibrary.simpleMessage("Add Task"),
+        "close": MessageLookupByLibrary.simpleMessage("Close"),
         "color": MessageLookupByLibrary.simpleMessage("Color"),
         "createTask": MessageLookupByLibrary.simpleMessage("Create Task"),
         "daily": MessageLookupByLibrary.simpleMessage("Daily"),
         "date": MessageLookupByLibrary.simpleMessage("Date"),
+        "deleteTask": MessageLookupByLibrary.simpleMessage("Delete task"),
+        "edit": MessageLookupByLibrary.simpleMessage("Edit"),
+        "endTask": MessageLookupByLibrary.simpleMessage("End task"),
         "endTime": MessageLookupByLibrary.simpleMessage("End Time"),
         "enterNoteHere":
             MessageLookupByLibrary.simpleMessage("Enter note here"),
@@ -42,8 +46,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "repeat": MessageLookupByLibrary.simpleMessage("Repeat"),
         "selectedremaindMinutesEarly": m0,
         "startTime": MessageLookupByLibrary.simpleMessage("Start Time"),
+        "task": MessageLookupByLibrary.simpleMessage("Task"),
         "title": MessageLookupByLibrary.simpleMessage("Title"),
         "today": MessageLookupByLibrary.simpleMessage("Today"),
+        "uddateTask": MessageLookupByLibrary.simpleMessage("Uddate Task"),
         "weekly": MessageLookupByLibrary.simpleMessage("Weekly"),
         "youLeftTheFieldsEmpty": MessageLookupByLibrary.simpleMessage(
             "You left the \'Title\' and \'Note\' fields empty.")

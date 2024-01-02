@@ -28,10 +28,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "addNewTask":
             MessageLookupByLibrary.simpleMessage("Добавить новую задачу"),
         "addTask": MessageLookupByLibrary.simpleMessage("Задача"),
+        "close": MessageLookupByLibrary.simpleMessage("Close"),
         "color": MessageLookupByLibrary.simpleMessage("Цвет"),
         "createTask": MessageLookupByLibrary.simpleMessage("Создать задачу"),
         "daily": MessageLookupByLibrary.simpleMessage("Ежедневно"),
         "date": MessageLookupByLibrary.simpleMessage("Дата"),
+        "deleteTask": MessageLookupByLibrary.simpleMessage("Delete task"),
+        "edit": MessageLookupByLibrary.simpleMessage("Edit"),
+        "endTask": MessageLookupByLibrary.simpleMessage("End task"),
         "endTime": MessageLookupByLibrary.simpleMessage("Конец"),
         "enterNoteHere":
             MessageLookupByLibrary.simpleMessage("Введите заметку здесь"),
@@ -44,8 +48,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "repeat": MessageLookupByLibrary.simpleMessage("Повторить"),
         "selectedremaindMinutesEarly": m0,
         "startTime": MessageLookupByLibrary.simpleMessage("Начало"),
+        "task": MessageLookupByLibrary.simpleMessage("Task"),
         "title": MessageLookupByLibrary.simpleMessage("Название"),
         "today": MessageLookupByLibrary.simpleMessage("Сегодня"),
+        "uddateTask": MessageLookupByLibrary.simpleMessage("Uddate Task"),
         "weekly": MessageLookupByLibrary.simpleMessage("Еженедельно"),
         "youLeftTheFieldsEmpty": MessageLookupByLibrary.simpleMessage(
             "Вы не заполнили поле Название и поле Задача.")
