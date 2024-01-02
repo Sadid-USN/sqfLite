@@ -9,4 +9,13 @@ extension ScaffoldExtansion on Scaffold {
       child: this,
     );
   }
+
+  Widget unfocusBottomSheet(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).pop();
+      },
+      child: this,
+    );
+  }
 }

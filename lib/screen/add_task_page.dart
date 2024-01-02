@@ -183,9 +183,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 const SizedBox(
                   height: 12,
                 ),
-                ColorPalet(
-                  task: widget.task,
-                ),
+                 ColorPalet(task: widget.task,),
                 const SizedBox(
                   height: 16,
                 ),
