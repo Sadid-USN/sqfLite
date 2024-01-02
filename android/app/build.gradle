@@ -32,6 +32,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
+    
     compileSdkVersion 33
     ndkVersion flutter.ndkVersion
 
@@ -72,6 +73,7 @@ android {
            signingConfig signingConfigs.release
        }
    }
+    namespace 'com.example.sql_db'
 
 
 }
