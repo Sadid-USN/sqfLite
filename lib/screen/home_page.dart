@@ -11,6 +11,7 @@ import 'package:sql_db/core/unfocus_scope.dart';
 
 import 'package:sql_db/models/task_model.dart';
 import 'package:sql_db/screen/add_task_page.dart';
+import 'package:sql_db/theme/themes.dart';
 
 import 'package:sql_db/widget/header.dart';
 import 'package:sql_db/widget/task_tile.dart';
@@ -74,6 +75,7 @@ class _HomePageState extends State<HomePage> {
         // ),
       ),
       appBar: AppBar(
+        backgroundColor: secondaryColor,
         elevation: 0.0,
         leading: IconButton(
           onPressed: () {
@@ -83,7 +85,7 @@ class _HomePageState extends State<HomePage> {
           },
           icon: homeController.loadThemeFromBox()
               ? const Icon(Icons.nightlight_outlined)
-              : const Icon(Icons.sunny),
+              : const Icon(Icons.sunny, color: Colors.white,),
         ),
         actions: const [
           // Padding(
