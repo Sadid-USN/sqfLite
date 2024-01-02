@@ -19,7 +19,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await MobileAds.instance.initialize();
   await DBHelper.initDB();
-  await NotificationHelper().initNotification();
+ // await NotificationHelper().initNotification();
   await GetStorage.init();
 
   runApp(MultiProvider(
