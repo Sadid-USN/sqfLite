@@ -5,7 +5,6 @@
   "addNewTask": "Add a new task",
   "title": "Title",
   "enterTitleHere": "Enter title here",
-
   "enterNoteHere": "Enter note here",
   "date": "Date",
   "startTime": "Start Time",
@@ -19,5 +18,11 @@
   "repeat": "Repeat",
   "color": "Color",
   "createTask": "Create Task",
-  "youLeftTheFieldsEmpty": "You left the 'Title' and 'Note' fields empty."
+  "youLeftTheFieldsEmpty": "You left the 'Title' and 'Note' fields empty.",
+  "uddateTask": "Uddate Task",
+  "task": "Task",
+  "endTask": "End task",
+  "deleteTask": "Delete task",
+  "close": "Close",
+  "edit": "Edit"
 }

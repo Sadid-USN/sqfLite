@@ -8,6 +8,8 @@ import 'package:sql_db/core/db_helper.dart';
 import 'package:sql_db/core/validator.dart';
 import 'package:sql_db/generated/l10n.dart';
 import 'package:sql_db/languge_box.dart';
+import 'package:sql_db/screen/add_task_page.dart';
+import 'package:sql_db/screen/edit_task_page.dart';
 import 'package:sql_db/theme/themes.dart';
 import 'package:sql_db/widget/bottomsheet_widget.dart';
 
@@ -24,6 +26,7 @@ class HomePageController extends ChangeNotifier {
   TextEditingController titleEditingController = TextEditingController();
   TextEditingController noteEditingController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> editPageformKey = GlobalKey<FormState>();
   DateTime selectedDate = DateTime.now();
   String startTime = DateFormat('h:mm a').format(DateTime.now());
   String endTime = DateFormat('h:mm a').format(DateTime.now());
@@ -111,6 +114,14 @@ class HomePageController extends ChangeNotifier {
     await DBHelper.update(id);
     themeController.playAssetAudio("lib/audio/complete.mp3");
     getTasks();
+    notifyListeners();
+  }
+
+  Future<void> onTaskEdit(Task task) async {
+    themeController.playAssetAudio('lib/audio/edit_task.mp3');
+    await DBHelper.updateTask(
+        task); // Update the task using DBHelper's updateTask method
+    getTasks(); // Refresh the task list
     notifyListeners();
   }
 
@@ -232,6 +243,18 @@ class HomePageController extends ChangeNotifier {
             onClosePressed: () {
               themeController.playAssetAudio('lib/audio/open.mp3');
               Navigator.of(context).pop();
+            },
+            onTaskEdit: () {
+              onTaskEdit(task);
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EditTaskPage(
+                    task: task,
+                  ),
+                ),
+              );
             },
           );
         });

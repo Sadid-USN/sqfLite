@@ -5,7 +5,6 @@
   "addNewTask": "Добавить новую задачу",
   "title": "Название",
   "enterTitleHere": "Введите название здесь",
-
   "enterNoteHere": "Введите заметку здесь",
   "date": "Дата",
   "startTime": "Начало",
@@ -19,5 +18,11 @@
   "repeat": "Повторить",
   "color": "Цвет",
   "createTask": "Создать задачу",
-  "youLeftTheFieldsEmpty": "Вы не заполнили поле Название и поле Задача."
+  "youLeftTheFieldsEmpty": "Вы не заполнили поле Название и поле Задача.",
+  "uddateTask": "Uddate Task",
+  "task": "Task",
+  "endTask": "End task",
+  "deleteTask": "Delete task",
+  "close": "Close",
+  "edit": "Edit"
 }

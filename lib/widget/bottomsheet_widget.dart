@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sql_db/generated/l10n.dart';
 import 'package:sql_db/models/task_model.dart';
 import 'package:sql_db/theme/themes.dart';
 import 'package:sql_db/widget/bottom_sheet_button.dart';
@@ -8,6 +9,7 @@ class BottomSheetWidget extends StatelessWidget {
   final Task task;
   final bool loadThemeFromBox;
   final void Function() onTaskCompletedPressed;
+  final void Function() onTaskEdit;
   final void Function() onDeletePressed;
   final void Function() onClosePressed;
 
@@ -17,6 +19,7 @@ class BottomSheetWidget extends StatelessWidget {
     required this.loadThemeFromBox,
     required this.onTaskCompletedPressed,
     required this.onDeletePressed,
+    required this.onTaskEdit,
     required this.onClosePressed,
   });
 
@@ -46,21 +49,42 @@ class BottomSheetWidget extends StatelessWidget {
             BottomSheetButton(
               isTaskCompleted: task.isCompleted == 1 ? true : false,
               color: Colors.indigo,
-              title: "End task",
+              title: S.of(context).endTask,
               onPressed: onTaskCompletedPressed,
             ),
             BottomSheetButton(
               color: Colors.red,
-              title: "Delete task",
+              title: S.of(context).deleteTask,
               onPressed: onDeletePressed,
             ),
             const SizedBox(height: 10),
-            BottomSheetButton(
-              borderColor: Colors.white,
-              color: Colors.blueGrey.shade400,
-              title: "Close",
-              onPressed: onClosePressed,
+          SizedBox(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                    Expanded(
+                  child: BottomSheetButton(
+                    borderColor: Colors.white,
+                    color: Colors.blueGrey.shade400,
+                    title: S.of(context).close,
+                    onPressed: onClosePressed,
+                  ),
+                ),
+                const SizedBox(width: 12.0,),
+                  Expanded(
+                    child: BottomSheetButton(
+                    borderColor: Colors.white,
+                    color: Colors.green.shade200,
+                    title: S.of(context).edit,
+                    onPressed: onTaskEdit,
+                                  ),
+                  ),
+              
+              ],),
             ),
+          )
             
           ],
         ),

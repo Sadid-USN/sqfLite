@@ -7,12 +7,18 @@ import 'package:sql_db/controllers/theme_controller.dart';
 import 'package:sql_db/core/addbunner_helper.dart';
 import 'package:sql_db/core/unfocus_scope.dart';
 import 'package:sql_db/generated/l10n.dart';
+import 'package:sql_db/models/task_model.dart';
 import 'package:sql_db/widget/color_palet.dart';
 import 'package:sql_db/widget/custom_field.dart';
 
 class AddTaskPage extends StatefulWidget {
   static const ADDPAGE = '/addtaskpage';
-  const AddTaskPage({Key? key}) : super(key: key);
+
+  final Task? task;
+  const AddTaskPage({
+    Key? key,
+    this.task,
+  }) : super(key: key);
 
   @override
   State<AddTaskPage> createState() => _AddTaskPageState();
@@ -43,7 +49,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
   Widget build(BuildContext context) {
     var homeController = Provider.of<HomePageController>(context);
     var themeController = Provider.of<ThemeController>(context);
-
+    if (widget.task != null) {
+      homeController.titleEditingController.text = widget.task!.title ?? '';
+      homeController.noteEditingController.text = widget.task!.note ?? '';
+      // Assign other properties of the task to corresponding controllers or variables
+    }
     var dateFormat = DateFormat('M/d/yyyy').format(homeController.selectedDate);
 
     return Scaffold(
@@ -93,7 +103,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                   hintText: dateFormat,
                   widget: IconButton(
                     onPressed: () {
-                    //  homeController.getDateFormat(context);
+                      //  homeController.getDateFormat(context);
                     },
                     icon: const SizedBox(),
                   ),
@@ -147,7 +157,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 //         onChanged: homeController.onRemaindChanged,
                 //       )),
                 // ),
-               
+
                 // CustomField(
                 //   title: 'Повторить',
                 //   hintText: homeController.selectedRepeat,
@@ -173,7 +183,9 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 const SizedBox(
                   height: 12,
                 ),
-                const ColorPalet(),
+                ColorPalet(
+                  task: widget.task,
+                ),
                 const SizedBox(
                   height: 16,
                 ),

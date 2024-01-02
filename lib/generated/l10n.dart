@@ -249,6 +249,66 @@ class S {
       args: [],
     );
   }
+
+  /// `Uddate Task`
+  String get uddateTask {
+    return Intl.message(
+      'Uddate Task',
+      name: 'uddateTask',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Task`
+  String get task {
+    return Intl.message(
+      'Task',
+      name: 'task',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `End task`
+  String get endTask {
+    return Intl.message(
+      'End task',
+      name: 'endTask',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete task`
+  String get deleteTask {
+    return Intl.message(
+      'Delete task',
+      name: 'deleteTask',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Close`
+  String get close {
+    return Intl.message(
+      'Close',
+      name: 'close',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit`
+  String get edit {
+    return Intl.message(
+      'Edit',
+      name: 'edit',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
